@@ -1,3 +1,5 @@
+from re import compile
+
 class TestCase:
     """
     Base class that implements the interface needed by the runner to allow
@@ -75,61 +77,61 @@ class TestCase:
         """
         Test that expr is True.
         """
-        pass
+        assert bool(expr), { 'expected': True, 'received': bool(expr) }
 
     def assertFalse(self, expr):
         """
         Test that expr is False.
         """
-        pass
+        assert not bool(expr), { 'expected': False, 'received': bool(expr) }
 
     def assertIs(self, first, second):
         """
         Test that first and second evaluate to the same object.
         """
-        pass
+        assert first is second, { 'expected': f'{first} to be {second}', 'received': f'{first} is {type(first)}' }
 
     def assertIsNot(self, first, second):
         """
         Test that first and second does not evaluate to the same object.
         """
-        pass
+        assert first is not second, { 'expected': f'{first} to not be {second}', 'received': f'{first} is {second}' }       
 
     def assertIsNone(self, expr):
         """
         Test that expr is None.
         """
-        pass
+        assert expr is None, { 'expected': None, 'received': expr }
 
     def assertIsNotNone(self, expr):
         """
         Test that expr is not None.
         """
-        pass
+        assert expr is not None, { 'expected': 'anything other than None', 'received': None }
 
     def assertIn(self, first, second):
         """
         Test that first is in second.
         """
-        pass
+        assert first in second, { 'expected': f'{first} to be in {second}', 'received': f'{first} not in {second}' }
 
     def assertNotIn(self, first, second):
         """
         Test that first is not in second.
         """
-        pass
+        assert first not in second, { 'expected': f'{first} to be not in {second}', 'received': f'{first} in {second}' }
 
     def assertIsInstance(self, obj, cls):
         """
         Test that obj is an instance of cls.
         """
-        pass
+        assert isinstance(obj, cls), { 'expected': f'{obj} is an instance of {cls}', 'received': f'{obj} is not an instance of {cls}' }
 
     def assertNotIsInstance(self, obj, cls):
         """
         Test that obj is not an instance of cls.
         """
-        pass
+        assert not isinstance(obj, cls), { 'expected': f'{obj} is not an instance of {cls}', 'received': f'{obj} is an instance of {cls}' }
 
     def assertRaises(self, exception, callable, *args, **kwargs):
         """
@@ -138,7 +140,11 @@ class TestCase:
         if exception is raised, is an error if another exception is 
         raised, or fails if no exception is raised.
         """
-        pass
+        try:
+          callable(*args, **kwargs)
+          assert False, { 'expected': f'{callable} to raise a/an {exception}', 'received': f'{exception} was not raised' }
+        except exception:
+          assert True
 
     def assertDoesNotRaises(self, exception, callable, *args, **kwargs):
         """
@@ -147,14 +153,23 @@ class TestCase:
         if exception is not raised, is an error if another exception is 
         raised, or fails if exception is raised.
         """
-        pass
+        try:
+          callable(*args, **kwargs)
+          assert True
+        except exception:
+          assert False, { 'expected': f'{callable} to not raise a/an {exception}', 'received': f'{exception} was raised' }
 
     def assertRaisesRegex(self, exception, regex, callable, *args, **kwargs):
         """
         Like assertRaises() but also tests that regex matches on the 
         string representation of the raised exception.
         """
-        pass
+        pattern = compile(regex)
+        try:
+          callable(*args, **kwargs)
+          assert False, { 'expected': f'{callable} to raise a/an {exception}', 'received': f'{exception} was not raised' }
+        except exception as exc:
+          assert pattern.match(exc), { 'expected': f'error message to match {regex}', 'received': exc } 
 
     def assertAlmostEqual(self, first, second, places=7):
         """
@@ -162,7 +177,7 @@ class TestCase:
         the difference, rounding to the given number of decimal places
         (default 7), and comparing to zero. 
         """
-        pass
+        assert round(first-second, places) == 0, { 'expected': f'a diff of 0', 'received': f'a diff of {round(first-second, places)}' }
 
     def assertNotAlmostEqual(self, first, second, places=7):
         """
@@ -170,50 +185,75 @@ class TestCase:
         computing the difference, rounding to the given number of decimal
         places (default 7), and comparing to zero. 
         """
-        pass
+        expected, received = 'a diff of not 0', 'a diff of 0' 
+        assert round(first-second, places) != 0, { 'expected': expected, 'received': received }
 
     def assertGreater(self, first, second):
         """
         Test that first is > than the second. If not, the test will fail.
         """
-        pass
+        expected = f'{first} is greater than {second}' 
+        received = f'{first} is not bigger than {second}'
+        assert first > second, { 'expected': expected, 'received': received }
 
     def assertGreaterEqual(self, first, second):
         """
         Test that first is >= than the second. If not, the test will fail.
         """
-        pass
+        expected = f'{first} is greater or equal to {second}'
+        received = f'{first} is not greater or equal to {second}'
+        assert first >= second, { 'expected': expected, 'received': received }
 
     def assertLess(self, first, second):
         """
         Test that first is < than the second. If not, the test will fail.
         """
-        pass
+        expected = f'{first} is less than {second}'
+        received = f'{first} is not less than {second}'
+        assert first < second, { 'expected': expected, 'received': received }
 
     def assertLessEqual(self, first, second):
         """
         Test that first is <= than the second. If not, the test will fail.
         """
-        pass
+        expected = f'{first} is less than or equal to {second}'
+        received = f'{first} is not less than or equal to {second}'
+        assert first <= second, { 'expected': expected, 'received': received }
 
     def assertRegex(self, text, regex):
         """
         Test that a regex search matches the text.
         """
-        pass
+        pattern = compile(regex)
+        expected = f'{text} to match {regex}'
+        received = f'{text} does not match {regex}'
+        assert pattern.match(text), { 'expected': expected, 'received': received }
 
     def assertNotRegex(self, text, regex):
         """
         Test that a regex search does not math the text.
         """
-        pass
+        pattern = compile(regex)
+        expected = f'{text} to not match {regex}'
+        received = f'{text} does match {regex}'
+        assert not pattern.match(text), { 'expected': expected, 'received': received }
 
     def assertCountEqual(self, first, second):
         """
         Test that sequence first contains the same elements as second,
         regardless of their order. Duplicates are not ignored.
         """
-        pass
+        diff = []
+        for item in first:
+          if item in second: second.remove(item)
+          elif: diff.append(item)
+
+        if second: diff.extend(second)
+
+        expected: f'{first} to contain the same elements as {second}'
+        received: f'diff: {diff}'
+
+        assert not diff, { 'expected': expected, 'received': received }
 
     def assertSequenceEqual(self, first, second, seq_type=None):
         """
@@ -221,19 +261,24 @@ class TestCase:
         both first and second must be instances of seq_type or a failure
         will be raised.
         """
-        pass
+        if seq_type:
+          expected = f'{first} to be equal to {second}, and both types to be {seq_type}'
+          received = f'{first}, {second} | types: {type(first)}, {type(second)}'
+          assert first == second and type(first) == type(second) == seq_type, { 'expected': expected, 'received': received }
+        else:
+          assert first == second, { 'expected': first, 'received': second }
 
     def assertListEqual(self, first, second):
         """
         Test that two lists are equal.
         """
-        pass
+        self.assertSequenceEqual(first, second, list)
 
     def assertTupleEqual(self, first, second):
         """
         Test that two tuples are equal.
         """
-        pass
+        self.assertSequenceEqual(first, second, tuple)
 
     def assertSetEqual(self, first, second):
         """
@@ -242,13 +287,13 @@ class TestCase:
         Fails if either of first or second does not have a 
         set.difference() method.
         """
-        pass
+        self.assertSequenceEqual(first, second, set)
 
     def assertDictEqual(self, first, second):
         """
         Test that two dictionaries are equal.
         """
-        pass
+        self.assertSequenceEqual(first, second, dict)
 
     @classmethod
     def addCleanup(cls, function, *args, **kwargs):
@@ -271,4 +316,4 @@ class TestCase:
         setUp() if setUp() raises an exception.
         """
         pass
-    
+   

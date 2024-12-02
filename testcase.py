@@ -7,9 +7,48 @@ class TestCase:
     for and report various kinds of failures.    
     """
 
+    class TestResult:
+      """
+      Class that stores the results of the tests ran by run(). It provides
+      functionalities to display output to the screen
+      """
+      def __init__(self):
+        self.failed = []
+        self.errors = []
+        self.passed = []
+        self.time = 0
+
+      def addTest(self, status, order_num, name, errors=None):
+        match status:
+          case 'fail':
+            self.errors({ 'order': order_num, 'name': name, 'errors': errors )}
+
+          case 'pass':
+            self.passed({ 'order': order_num, 'name': name })
+
+          case 'fail':
+            self.failed({ 'order': order_num, 'name': name })
+
+
     def __init_subclass__(cls, **kwargs):
         cls.clean_ups = []
         super().__init_subclass__(**kwargs)
+
+    def __order_tests(self, tests):
+        tests_order_nums = [int(func.__name__.split('_')[-1]) for func in tests]
+
+        for num in tests_order_nums:
+          if tests_order_nums.count(num) > 1:
+            raise AttributeError(f'More than 2 tests have {num} as the order number')
+
+          for index, test in enumerate(tests):
+            last_char = test.__name__.split('_')[-1]
+            if not last_char.isdigit():
+              tests[index] = test + '_0'
+
+          tests.sort(key=lambda test: int(test.__name__.split('_')[-1]))
+
+          return tests
 
     def setUp(self):
         """

@@ -10,7 +10,7 @@ class TestCase:
     class TestResult:
       """
       Class that stores the results of the tests ran by run(). It provides
-      functionalities to display output to the screen
+      functionalities to display output to the screen.
       """
       def __init__(self):
         self.failed = []
@@ -18,17 +18,16 @@ class TestCase:
         self.passed = []
         self.time = 0
 
-      def addTest(self, status, order_num, name, errors=None):
+      def add_test(self, status, order_num, name, errors=None):
         match status:
           case 'fail':
-            self.errors({ 'order': order_num, 'name': name, 'errors': errors )}
+            self.errors.append({ 'order': order_num, 'name': name, 'errors': errors })
 
           case 'pass':
-            self.passed({ 'order': order_num, 'name': name })
+            self.passed.append({ 'order': order_num, 'name': name })
 
           case 'fail':
-            self.failed({ 'order': order_num, 'name': name })
-
+            self.failed.append({ 'order': order_num, 'name': name })
 
     def __init_subclass__(cls, **kwargs):
         cls.clean_ups = []
@@ -50,7 +49,7 @@ class TestCase:
 
           return tests
 
-    def setUp(self):
+    def set_up(self):
         """
         This method is called immediately before calling a test method;
         other than AssertionError or SkipTest, any exception raised by
@@ -59,7 +58,7 @@ class TestCase:
         """
         pass
 
-    def tearDown(self):
+    def tear_down(self):
         """
         This method is called immediately after calling a test method;
         other than AssertionError or SkipTest, any exception raised by
@@ -70,7 +69,7 @@ class TestCase:
         pass
 
     @classmethod
-    def setUpClass(cls):
+    def set_up_class(cls):
         """
         This method is called before tests in an individual class run. The
         default implementation does nothing.
@@ -78,7 +77,7 @@ class TestCase:
         pass
 
     @classmethod
-    def tearDownClass(cls):
+    def tear_down_class(cls):
         """
         This method is called after tests in an individual class run. The
         default implementation does nothing.
@@ -92,87 +91,96 @@ class TestCase:
         """
         pass
 
-    def skipTest(self, reason):
+    def skip_test(self, reason):
         """
         Calling this during a test method or setUp() skips the current test.
         """
         pass
 
-    def assertEqual(self, first, second):
+    def assert_equal(self, first, second):
         """
         Test that first and second are equal. If the values does not 
         compare, the test will fail.
         """
-        pass
+        if isinstance(first, list) and isinstance(second, list):
+           self.assert_list_equal(first, second)
+        elif isinstance(first, tuple) and isinstance(second, tuple):
+           self.assert_tuple_equal(first, second)
+        elif isinstance(first, dict) and isinstance(second, dict):
+           self.assert_dict_equal(first, second)
+        elif isinstance(first, set) and isinstance(second, set):
+           self.assert_set_equal(first, second)
+        else:
+           assert first == second, { 'first': first, 'second': second }
 
-    def assertNotEqual(self, first, second):
+    def assert_not_equal(self, first, second):
         """
         Test that first and second are not equal. If the values do compare
         equal, the test will fail
         """
-        pass
+        assert first != second, { 'first': first, 'second': second }
 
-    def assertTrue(self, expr):
+    def assert_true(self, expr):
         """
         Test that expr is True.
         """
-        assert bool(expr), { 'expected': True, 'received': bool(expr) }
+        assert bool(expr), { 'first': expr, 'second': True }
 
-    def assertFalse(self, expr):
+    def assert_false(self, expr):
         """
         Test that expr is False.
         """
-        assert not bool(expr), { 'expected': False, 'received': bool(expr) }
+        assert not bool(expr), { 'first': expr, 'second': False }
 
-    def assertIs(self, first, second):
+    def assert_is(self, first, second):
         """
         Test that first and second evaluate to the same object.
         """
-        assert first is second, { 'expected': f'{first} to be {second}', 'received': f'{first} is {type(first)}' }
+        assert first is second, { 'first': first, 'second': second }
 
-    def assertIsNot(self, first, second):
+    def assert_is_not(self, first, second):
         """
         Test that first and second does not evaluate to the same object.
         """
-        assert first is not second, { 'expected': f'{first} to not be {second}', 'received': f'{first} is {second}' }       
+        assert first is not second, { 'first': first, 'second': second }       
 
-    def assertIsNone(self, expr):
+    def assert_is_none(self, expr):
         """
         Test that expr is None.
         """
-        assert expr is None, { 'expected': None, 'received': expr }
+        assert expr is None, { 'first': expr, 'second': None }
 
-    def assertIsNotNone(self, expr):
+    def assert_is_not_none(self, expr):
         """
         Test that expr is not None.
         """
-        assert expr is not None, { 'expected': 'anything other than None', 'received': None }
+        assert expr is not None, { 'first': expr, 'second': None }
 
-    def assertIn(self, first, second):
+    def assert_in(self, first, second):
         """
         Test that first is in second.
         """
-        assert first in second, { 'expected': f'{first} to be in {second}', 'received': f'{first} not in {second}' }
+        assert first in second, { 'first': first, 'second': second }
 
-    def assertNotIn(self, first, second):
+    def assert_not_in(self, first, second):
         """
         Test that first is not in second.
         """
-        assert first not in second, { 'expected': f'{first} to be not in {second}', 'received': f'{first} in {second}' }
+        assert first not in second, { 'first': first, 'second': second }
 
-    def assertIsInstance(self, obj, cls):
+    def assert_is_instance(self, obj, cls):
         """
         Test that obj is an instance of cls.
         """
-        assert isinstance(obj, cls), { 'expected': f'{obj} is an instance of {cls}', 'received': f'{obj} is not an instance of {cls}' }
+        assert isinstance(obj, cls), { 'first': obj, 'second': cls }
 
-    def assertNotIsInstance(self, obj, cls):
+    def assert_not_is_instance(self, obj, cls):
         """
         Test that obj is not an instance of cls.
         """
-        assert not isinstance(obj, cls), { 'expected': f'{obj} is not an instance of {cls}', 'received': f'{obj} is an instance of {cls}' }
+        assert not isinstance(obj, cls), { 'first': obj, 'second': cls }
 
-    def assertRaises(self, exception, callable, *args, **kwargs):
+    def assert_raises(self, exception, callable, *args, **kwargs):
         """
         Test that an exception (specific) is raised when callable is
         called with any positional or keyword arguments. The test passes
@@ -181,11 +189,11 @@ class TestCase:
         """
         try:
           callable(*args, **kwargs)
-          assert False, { 'expected': f'{callable} to raise a/an {exception}', 'received': f'{exception} was not raised' }
+          assert False, { 'first': exception, 'second': { 'callable': callable, 'args': args, 'kwargs': kwargs } }
         except exception:
           assert True
 
-    def assertDoesNotRaises(self, exception, callable, *args, **kwargs):
+    def assert_does_not_raises(self, exception, callable, *args, **kwargs):
         """
         Test that an exception (specific) is not raised when callable is
         called with any positional or keyword arguments. The test passes
@@ -196,9 +204,9 @@ class TestCase:
           callable(*args, **kwargs)
           assert True
         except exception:
-          assert False, { 'expected': f'{callable} to not raise a/an {exception}', 'received': f'{exception} was raised' }
+          assert False, { 'first': exception, 'second': { 'callable': callable, 'args': args, 'kwargs': kwargs } }
 
-    def assertRaisesRegex(self, exception, regex, callable, *args, **kwargs):
+    def assert_raises_regex(self, exception, regex, callable, *args, **kwargs):
         """
         Like assertRaises() but also tests that regex matches on the 
         string representation of the raised exception.
@@ -206,136 +214,120 @@ class TestCase:
         pattern = compile(regex)
         try:
           callable(*args, **kwargs)
-          assert False, { 'expected': f'{callable} to raise a/an {exception}', 'received': f'{exception} was not raised' }
+          assert False, { 
+            'first': exception, 
+            'second': { 'callable': callable, 'args': args, 'kwargs': kwargs, 'regex': regex } }
         except exception as exc:
           assert pattern.match(exc), { 'expected': f'error message to match {regex}', 'received': exc } 
 
-    def assertAlmostEqual(self, first, second, places=7):
+    def assert_almost_equal(self, first, second, places=7):
         """
         Test that first and second are approximately equal by computing
         the difference, rounding to the given number of decimal places
         (default 7), and comparing to zero. 
         """
-        assert round(first-second, places) == 0, { 'expected': f'a diff of 0', 'received': f'a diff of {round(first-second, places)}' }
+        assert round(first-second, places) == 0, { 'first': first, 'second': second }
 
-    def assertNotAlmostEqual(self, first, second, places=7):
+    def assert_not_almost_equal(self, first, second, places=7):
         """
         Test that first and second are not approximately equal by
         computing the difference, rounding to the given number of decimal
         places (default 7), and comparing to zero. 
         """
-        expected, received = 'a diff of not 0', 'a diff of 0' 
-        assert round(first-second, places) != 0, { 'expected': expected, 'received': received }
+        assert round(first-second, places) != 0, { 'first': first, 'second': second }
 
-    def assertGreater(self, first, second):
+    def assert_greater(self, first, second):
         """
         Test that first is > than the second. If not, the test will fail.
         """
-        expected = f'{first} is greater than {second}' 
-        received = f'{first} is not bigger than {second}'
-        assert first > second, { 'expected': expected, 'received': received }
+        assert first > second, { 'first': first, 'second': second }
 
-    def assertGreaterEqual(self, first, second):
+    def assert_greater_equal(self, first, second):
         """
         Test that first is >= than the second. If not, the test will fail.
         """
-        expected = f'{first} is greater or equal to {second}'
-        received = f'{first} is not greater or equal to {second}'
-        assert first >= second, { 'expected': expected, 'received': received }
+        assert first >= second, { 'first': first, 'second': second }
 
-    def assertLess(self, first, second):
+    def assert_less(self, first, second):
         """
         Test that first is < than the second. If not, the test will fail.
         """
-        expected = f'{first} is less than {second}'
-        received = f'{first} is not less than {second}'
-        assert first < second, { 'expected': expected, 'received': received }
+        assert first < second, { 'first': first, 'second': second }
 
-    def assertLessEqual(self, first, second):
+    def assert_less_equal(self, first, second):
         """
         Test that first is <= than the second. If not, the test will fail.
         """
-        expected = f'{first} is less than or equal to {second}'
-        received = f'{first} is not less than or equal to {second}'
-        assert first <= second, { 'expected': expected, 'received': received }
+        assert first <= second, { 'first': first, 'second': second }
 
-    def assertRegex(self, text, regex):
+    def assert_regex(self, text, regex):
         """
         Test that a regex search matches the text.
         """
         pattern = compile(regex)
-        expected = f'{text} to match {regex}'
-        received = f'{text} does not match {regex}'
-        assert pattern.match(text), { 'expected': expected, 'received': received }
+        assert pattern.match(text), { 'first': text, 'second': regex }
 
-    def assertNotRegex(self, text, regex):
+    def assert_not_regex(self, text, regex):
         """
         Test that a regex search does not math the text.
         """
         pattern = compile(regex)
-        expected = f'{text} to not match {regex}'
-        received = f'{text} does match {regex}'
-        assert not pattern.match(text), { 'expected': expected, 'received': received }
+        assert not pattern.match(text), { 'first': text, 'second': regex }
 
-    def assertCountEqual(self, first, second):
+    def assert_count_equal(self, first, second):
         """
         Test that sequence first contains the same elements as second,
         regardless of their order. Duplicates are not ignored.
         """
         diff = []
         for item in first:
-          if item in second: second.remove(item)
-          elif: diff.append(item)
+            if item in second: second.remove(item)
+            else: diff.append(item)
 
         if second: diff.extend(second)
 
-        expected: f'{first} to contain the same elements as {second}'
-        received: f'diff: {diff}'
+        assert not diff, { 'first': first, 'second': second }
 
-        assert not diff, { 'expected': expected, 'received': received }
-
-    def assertSequenceEqual(self, first, second, seq_type=None):
+    def assert_sequence_equal(self, first, second, seq_type=None):
         """
         Test that two sequences are equal. If a seq_type is supplied, 
         both first and second must be instances of seq_type or a failure
         will be raised.
         """
         if seq_type:
-          expected = f'{first} to be equal to {second}, and both types to be {seq_type}'
-          received = f'{first}, {second} | types: {type(first)}, {type(second)}'
-          assert first == second and type(first) == type(second) == seq_type, { 'expected': expected, 'received': received }
+          assert first == second and type(first) == type(second) == seq_type, { 'first': first, 'second': second }
         else:
           assert first == second, { 'expected': first, 'received': second }
 
-    def assertListEqual(self, first, second):
+    def assert_list_equal(self, first, second):
         """
         Test that two lists are equal.
         """
-        self.assertSequenceEqual(first, second, list)
+        self.assert_sequence_equal(first, second, list)
 
-    def assertTupleEqual(self, first, second):
+    def assert_tuple_equal(self, first, second):
         """
         Test that two tuples are equal.
         """
-        self.assertSequenceEqual(first, second, tuple)
+        self.assert_sequence_equal(first, second, tuple)
 
-    def assertSetEqual(self, first, second):
+    def assert_set_equal(self, first, second):
         """
         Test that two sets are equal.
 
         Fails if either of first or second does not have a 
         set.difference() method.
         """
-        self.assertSequenceEqual(first, second, set)
+        self.assert_sequence_equal(first, second, set)
 
-    def assertDictEqual(self, first, second):
+    def assert_dict_equal(self, first, second):
         """
         Test that two dictionaries are equal.
         """
-        self.assertSequenceEqual(first, second, dict)
+        self.assert_sequence_equal(first, second, dict)
 
     @classmethod
-    def addCleanup(cls, function, *args, **kwargs):
+    def add_cleanup(cls, function, *args, **kwargs):
         """
         Add a function to be called after tearDown() to clean up resources
         used during the test. Functions will be called in reverse order to
@@ -349,7 +341,7 @@ class TestCase:
         pass
 
     @classmethod
-    def doCleanups(cls):
+    def do_cleanups(cls):
         """
         The method is called unconditionally after tearDown(), or after 
         setUp() if setUp() raises an exception.

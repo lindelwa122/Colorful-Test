@@ -73,14 +73,7 @@ class TestCase:
         return tests
     
     def __order_tests(self, tests):
-        tests_order_nums = [func.__name__.split('_')[-1] for func in tests]
-        
-        for num in tests_order_nums:
-            if tests_order_nums.count(num) > 1:
-                raise AttributeError(f'More than 2 tests have {num} as the order number')
-
         tests.sort(key=lambda test: test.__name__.split('_')[-1])
-
         return tests
     
     def set_up(self):
@@ -241,8 +234,8 @@ class TestCase:
                     sep='\n',
                     end='\n\n',
                 )
-            
-    def skip_test(self, reason):
+    
+    def skip_test(cls, reason):
         """
         Calling this during a test method or setUp() skips the current test.
         """

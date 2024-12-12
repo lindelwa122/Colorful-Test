@@ -1,1 +1,3 @@
 *.swp
+playground.py
+__pycache__

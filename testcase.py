@@ -67,27 +67,21 @@ class TestCase:
 
         for method in dir(self):
             if method.startswith('test_'):
-                tests.append(method)
+                tests.append(getattr(self, method))
 
         return tests
-
+    
     def __order_tests(self, tests):
-        tests_order_nums = [int(func.__name__.split('_')[-1]) for func in tests]
-
+        tests_order_nums = [func.__name__.split('_')[-1] for func in tests]
+        
         for num in tests_order_nums:
             if tests_order_nums.count(num) > 1:
                 raise AttributeError(f'More than 2 tests have {num} as the order number')
 
-            for index, test in enumerate(tests):
-                last_char = test.__name__.split('_')[-1]
-                if not last_char.isdigit():
-                    test.__name__ =+ '_0'
-                    test[index] = test
-
-        tests.sort(key=lambda test: int(test.__name__.split('_')[-1]))
+        tests.sort(key=lambda test: test.__name__.split('_')[-1])
 
         return tests
-
+    
     def set_up(self):
         """
         This method is called immediately before calling a test method;

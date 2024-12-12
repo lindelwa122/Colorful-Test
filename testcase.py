@@ -2,6 +2,7 @@ from re import compile
 from time import time
 
 from exceptions import SkipTest
+from message import output_msg
 
 class TestCase:
     """
@@ -216,12 +217,12 @@ class TestCase:
             print('Errors: ')
             
             for error in results.errors:
-                print(
-                    f'Test Number: {error["order"]}',
-                    f'Test Name: {error["name"]}',
-                    f'Error: {error["errors"]}',
-                    sep='\n',
-                    end='\n\n',
+                output_msg(
+                    "err",
+                    f'''
+                    Test Number: {error["order"]}'\n
+                    Test Name: {error["name"]}'\n
+                    Error: {error["errors"]}\n'''
                 )
                 
         if results.failed:

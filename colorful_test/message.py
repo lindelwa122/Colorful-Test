@@ -1,4 +1,4 @@
-from exceptions import SkipTest
+from .exceptions import SkipTest
 from functools import wraps
 
 def output_msg(type, msg):

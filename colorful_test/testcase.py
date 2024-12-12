@@ -1,8 +1,8 @@
 from re import compile
 from time import time
 
-from exceptions import SkipTest
-from message import output_msg
+from .exceptions import SkipTest
+from .message import output_msg
 
 class TestCase:
     """

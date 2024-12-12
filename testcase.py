@@ -10,29 +10,29 @@ class TestCase:
     """
 
     class TestResult:
-      """
-      Class that stores the results of the tests ran by run(). It provides
-      functionalities to display output to the screen.
-      """
-      def __init__(self):
-        self.failed = []
-        self.errors = []
-        self.passed = []
-        self.time = 0
+        """
+        Class that stores the results of the tests ran by run(). It provides
+        functionalities to display output to the screen.
+        """
+        def __init__(self):
+            self.failed = []
+            self.errors = []
+            self.passed = []
+            self.time = 0
 
         def get_total_tests_ran(self):
             return len(self.failed) + len(self.errors) + len(self.passed)
 
-      def add_test(self, status, order_num, name, errors=None):
-        match status:
-          case 'error':
-            self.errors.append({ 'order': order_num, 'name': name, 'errors': errors })
+        def add_test(self, status, order_num, name, errors=None):
+            match status:
+                case 'error':
+                    self.errors.append({ 'order': order_num, 'name': name, 'errors': errors })
 
-          case 'pass':
-            self.passed.append({ 'order': order_num, 'name': name })
+                case 'pass':
+                    self.passed.append({ 'order': order_num, 'name': name })
 
-          case 'fail':
-            self.failed.append({ 'order': order_num, 'name': name })
+                case 'fail':
+                    self.failed.append({ 'order': order_num, 'name': name })
 
     def __init_subclass__(cls, **kwargs):
         cls.clean_ups = []
@@ -75,18 +75,18 @@ class TestCase:
         tests_order_nums = [int(func.__name__.split('_')[-1]) for func in tests]
 
         for num in tests_order_nums:
-          if tests_order_nums.count(num) > 1:
-            raise AttributeError(f'More than 2 tests have {num} as the order number')
+            if tests_order_nums.count(num) > 1:
+                raise AttributeError(f'More than 2 tests have {num} as the order number')
 
-          for index, test in enumerate(tests):
-            last_char = test.__name__.split('_')[-1]
-            if not last_char.isdigit():
-              test.__name__ =+ '_0'
-              test[index] = test
+            for index, test in enumerate(tests):
+                last_char = test.__name__.split('_')[-1]
+                if not last_char.isdigit():
+                    test.__name__ =+ '_0'
+                    test[index] = test
 
-          tests.sort(key=lambda test: int(test.__name__.split('_')[-1]))
+        tests.sort(key=lambda test: int(test.__name__.split('_')[-1]))
 
-          return tests
+        return tests
 
     def set_up(self):
         """
@@ -218,15 +218,15 @@ class TestCase:
         compare, the test will fail.
         """
         if isinstance(first, list) and isinstance(second, list):
-           self.assert_list_equal(first, second)
+            self.assert_list_equal(first, second)
         elif isinstance(first, tuple) and isinstance(second, tuple):
-           self.assert_tuple_equal(first, second)
+            self.assert_tuple_equal(first, second)
         elif isinstance(first, dict) and isinstance(second, dict):
-           self.assert_dict_equal(first, second)
+            self.assert_dict_equal(first, second)
         elif isinstance(first, set) and isinstance(second, set):
-           self.assert_set_equal(first, second)
+            self.assert_set_equal(first, second)
         else:
-           assert first == second, { 'first': first, 'second': second }
+            assert first == second, { 'first': first, 'second': second }
 
     def assert_not_equal(self, first, second):
         """
@@ -303,10 +303,10 @@ class TestCase:
         raised, or fails if no exception is raised.
         """
         try:
-          callable(*args, **kwargs)
-          assert False, { 'first': exception, 'second': { 'callable': callable, 'args': args, 'kwargs': kwargs } }
+            callable(*args, **kwargs)
+            assert False, { 'first': exception, 'second': { 'callable': callable, 'args': args, 'kwargs': kwargs } }
         except exception:
-          assert True
+            assert True
 
     def assert_does_not_raises(self, exception, callable, *args, **kwargs):
         """
@@ -316,10 +316,10 @@ class TestCase:
         raised, or fails if exception is raised.
         """
         try:
-          callable(*args, **kwargs)
-          assert True
+            callable(*args, **kwargs)
+            assert True
         except exception:
-          assert False, { 'first': exception, 'second': { 'callable': callable, 'args': args, 'kwargs': kwargs } }
+            assert False, { 'first': exception, 'second': { 'callable': callable, 'args': args, 'kwargs': kwargs } }
 
     def assert_raises_regex(self, exception, regex, callable, *args, **kwargs):
         """
@@ -328,12 +328,12 @@ class TestCase:
         """
         pattern = compile(regex)
         try:
-          callable(*args, **kwargs)
-          assert False, { 
+            callable(*args, **kwargs)
+            assert False, { 
             'first': exception, 
             'second': { 'callable': callable, 'args': args, 'kwargs': kwargs, 'regex': regex } }
         except exception as exc:
-          assert pattern.match(exc), { 'expected': f'error message to match {regex}', 'received': exc } 
+            assert pattern.match(exc), { 'expected': f'error message to match {regex}', 'received': exc } 
 
     def assert_almost_equal(self, first, second, places=7):
         """
@@ -410,9 +410,9 @@ class TestCase:
         will be raised.
         """
         if seq_type:
-          assert first == second and type(first) == type(second) == seq_type, { 'first': first, 'second': second }
+            assert first == second and type(first) == type(second) == seq_type, { 'first': first, 'second': second }
         else:
-          assert first == second, { 'expected': first, 'received': second }
+            assert first == second, { 'expected': first, 'received': second }
 
     def assert_list_equal(self, first, second):
         """

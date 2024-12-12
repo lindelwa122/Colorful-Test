@@ -453,7 +453,11 @@ class TestCase:
         If setUp() fails meaning that tearDown() is not called, then any 
         cleanup functions will still be called.
         """
-        pass
+        cls.clean_ups.append({
+            'callable': function,
+            'args': args,
+            'kwargs': kwargs
+        })
 
     @classmethod
     def do_cleanups(cls):
@@ -461,5 +465,10 @@ class TestCase:
         The method is called unconditionally after tearDown(), or after 
         setUp() if setUp() raises an exception.
         """
-        pass
+        for clean_up in cls.clean_ups:
+            callable = clean_up['callable']
+            args = clean_up['args']
+            kwargs = clean_up['kwargs']
+            
+            callable(*args, **kwargs)
    

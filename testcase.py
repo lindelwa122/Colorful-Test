@@ -220,9 +220,10 @@ class TestCase:
                 output_msg(
                     "err",
                     f'''
-                    Test Number: {error["order"]}
-                    Test Name: {error["name"]}
-                    Error: {error["errors"]}\n'''
+    Test Number: {error["order"]}
+    Test Name: {error["name"]}
+    Error: {error["errors"]}
+                    '''
                 )
                 
         if results.failed:

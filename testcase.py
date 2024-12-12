@@ -210,7 +210,7 @@ class TestCase:
         """
         Calling this during a test method or setUp() skips the current test.
         """
-        pass
+        raise SkipTest(reason)
 
     def assert_equal(self, first, second):
         """

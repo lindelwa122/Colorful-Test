@@ -1,4 +1,5 @@
 from re import compile
+from time import time
 
 from exceptions import SkipTest
 
@@ -117,11 +118,18 @@ class TestCase:
         """
         pass
 
-    def run(self, fail_fast=True):
+    @classmethod
+    def run(cls, fail_fast=True):
         """
         Run the tests, collecting the results into TestResult object. The
         result object is returned to run()'s caller.
         """
+        # Start timer
+        start = time()
+        
+        # Create an instance
+        instance = cls()
+        
         # Create test results
         results = TestCase.TestResult()
 
@@ -129,13 +137,13 @@ class TestCase:
         TestCase.set_up_class()
 
         # Get and sort tests
-        tests = self.__get_tests()
-        tests = self.__order_tests(tests)
+        tests = instance.__get_tests()
+        tests = instance.__order_tests(tests)
            
         for index, test in enumerate(tests):
             # Set up before running a test
-            results, status = self.__call_a_callable_safely(
-                self.set_up, 
+            results, status = instance.__call_a_callable_safely(
+                instance.set_up, 
                 test, 
                 index, 
                 results, 
@@ -147,7 +155,7 @@ class TestCase:
                 case 'fail_fast': return results
 
             # Run tests
-            results, status = self.__call_a_callable_safely(
+            results, status = instance.__call_a_callable_safely(
                 test,
                 test,
                 index,
@@ -160,8 +168,8 @@ class TestCase:
                 case 'fail_fast': return results
 
             # Clean up
-            results, status = self.__call_a_callable_safely(
-                self.tear_down(),
+            results, status = instance.__call_a_callable_safely(
+                instance.tear_down(),
                 test,
                 index,
                 results,
@@ -174,19 +182,26 @@ class TestCase:
 
         # Clean up class 
         TestCase.tear_down_class()
+        
+        # End timer
+        end = time()
+        
+        results.time = f'{(end - start) * 1000:.6f}'
 
         return results
 
-    def run_and_output_results(self, fail_fast=True):
-        results = self.run(fail_fast)
+    @classmethod
+    def run_and_output_results(cls, fail_fast=True):
+        results = cls.run(fail_fast)
 
         print(
             '========================================================\n',
             f'Ran {results.get_total_tests_ran()} tests in {results.time} ms',
             f'{len(results.passed)} passed',
             f'{len(results.failed)} failed',
-            f'{len(results.errors)} errors',
-            sep='\n'
+            f'{len(results.errors)} error(s)',
+            sep='\n',
+            end='\n\n',
         )
         
         if results.errors:
@@ -194,12 +209,24 @@ class TestCase:
             
             for error in results.errors:
                 print(
-                    f'Test Number: {error.order_num}',
-                    f'Test Name: {error.name}',
-                    f'Error: {error.errors}',
+                    f'Test Number: {error["order"]}',
+                    f'Test Name: {error["name"]}',
+                    f'Error: {error["errors"]}',
                     sep='\n',
+                    end='\n\n',
                 )
-
+                
+        if results.failed:
+            print('Failures: ')
+            
+            for failure in results.failed:
+                print(
+                    f'Test Number: {failure["order"]}',
+                    f'Test Name: {failure["name"]}',
+                    sep='\n',
+                    end='\n\n',
+                )
+            
     def skip_test(self, reason):
         """
         Calling this during a test method or setUp() skips the current test.

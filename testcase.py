@@ -20,6 +20,9 @@ class TestCase:
         self.passed = []
         self.time = 0
 
+        def get_total_tests_ran(self):
+            return len(self.failed) + len(self.errors) + len(self.passed)
+
       def add_test(self, status, order_num, name, errors=None):
         match status:
           case 'error':
@@ -179,6 +182,29 @@ class TestCase:
         TestCase.tear_down_class()
 
         return results
+
+    def run_and_output_results(self, fail_fast=True):
+        results = self.run(fail_fast)
+
+        print(
+            '========================================================\n',
+            f'Ran {results.get_total_tests_ran()} tests in {results.time} ms',
+            f'{len(results.passed)} passed',
+            f'{len(results.failed)} failed',
+            f'{len(results.errors)} errors',
+            sep='\n'
+        )
+        
+        if results.errors:
+            print('Errors: ')
+            
+            for error in results.errors:
+                print(
+                    f'Test Number: {error.order_num}',
+                    f'Test Name: {error.name}',
+                    f'Error: {error.errors}',
+                    sep='\n',
+                )
 
     def skip_test(self, reason):
         """

@@ -1,5 +1,7 @@
 from re import compile
 
+from exceptions import SkipTest
+
 class TestCase:
     """
     Base class that implements the interface needed by the runner to allow
@@ -20,7 +22,7 @@ class TestCase:
 
       def add_test(self, status, order_num, name, errors=None):
         match status:
-          case 'fail':
+          case 'error':
             self.errors.append({ 'order': order_num, 'name': name, 'errors': errors })
 
           case 'pass':
@@ -33,6 +35,39 @@ class TestCase:
         cls.clean_ups = []
         super().__init_subclass__(**kwargs)
 
+    def __call_a_callable_safely(self, callable, test, index, results, fail_fast):
+        try:
+            try:
+                callable()
+            except (AssertionError, SkipTest) as err:
+                results.add_test('fail', index, test.__name__)
+
+                # Do cleanups
+                self.do_cleanups()
+
+                if not fail_fast: return results, 'fail_slow'
+                else: return results, 'fail_fast'
+
+        except Exception as err:
+            results.add_test('error', index, test.__name__, err)
+            
+            # Do cleanups
+            self.do_cleanups()
+
+            if not fail_fast: return results, 'fail_slow'
+            else: return results, 'fail_fast'
+
+        return results, 'success'
+
+    def __get_tests(self):
+        tests = []
+
+        for method in dir(self):
+            if method.startswith('test_'):
+                tests.append(method)
+
+        return tests
+
     def __order_tests(self, tests):
         tests_order_nums = [int(func.__name__.split('_')[-1]) for func in tests]
 
@@ -43,7 +78,8 @@ class TestCase:
           for index, test in enumerate(tests):
             last_char = test.__name__.split('_')[-1]
             if not last_char.isdigit():
-              tests[index] = test + '_0'
+              test.__name__ =+ '_0'
+              test[index] = test
 
           tests.sort(key=lambda test: int(test.__name__.split('_')[-1]))
 
@@ -63,7 +99,7 @@ class TestCase:
         This method is called immediately after calling a test method;
         other than AssertionError or SkipTest, any exception raised by
         this method will be considered an error rather than a test
-        failure. This method will be executed only if setUp succeeds.
+        failure. This method will be executed only if set_up succeeds.
         The default implemantation does nothing.
         """
         pass
@@ -84,12 +120,65 @@ class TestCase:
         """
         pass
 
-    def run(self):
+    def run(self, fail_fast=True):
         """
         Run the tests, collecting the results into TestResult object. The
         result object is returned to run()'s caller.
         """
-        pass
+        # Create test results
+        results = TestCase.TestResult()
+
+        # Set up class
+        TestCase.set_up_class()
+
+        # Get and sort tests
+        tests = self.__get_tests()
+        tests = self.__order_tests(tests)
+           
+        for index, test in enumerate(tests):
+            # Set up before running a test
+            results, status = self.__call_a_callable_safely(
+                self.set_up, 
+                test, 
+                index, 
+                results, 
+                fail_fast
+            )
+
+            match status:
+                case 'fail_slow': continue
+                case 'fail_fast': return results
+
+            # Run tests
+            results, status = self.__call_a_callable_safely(
+                test,
+                test,
+                index,
+                results,
+                fail_fast
+            )
+
+            match status:
+                case 'fail_slow': continue
+                case 'fail_fast': return results
+
+            # Clean up
+            results, status = self.__call_a_callable_safely(
+                self.tear_down(),
+                test,
+                index,
+                results,
+                fail_fast
+            )
+
+            match status:
+                case 'fail_slow': continue
+                case 'fail_fast': return results
+
+        # Clean up class 
+        TestCase.tear_down_class()
+
+        return results
 
     def skip_test(self, reason):
         """

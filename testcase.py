@@ -151,8 +151,12 @@ class TestCase:
             )
 
             match status:
-                case 'fail_slow': continue
-                case 'fail_fast': return results
+                case 'fail_slow': 
+                    continue
+                case 'fail_fast':
+                    end = time()
+                    results.time = f'{(end - start) * 1000:.6f}' 
+                    return results
                 
             # Run tests
             results, status = instance.__call_a_callable_safely(
@@ -164,8 +168,12 @@ class TestCase:
             )
 
             match status:
-                case 'fail_slow': continue
-                case 'fail_fast': return results
+                case 'fail_slow': 
+                    continue
+                case 'fail_fast': 
+                    end = time()
+                    results.time = f'{(end - start) * 1000:.6f}'
+                    return results
 
             # Clean up
             results, status = instance.__call_a_callable_safely(
@@ -180,6 +188,8 @@ class TestCase:
                 case 'fail_slow': 
                     continue
                 case 'fail_fast': 
+                    end = time()
+                    results.time = f'{(end - start) * 1000:.6f}'
                     return results
                 case 'success': 
                     results.add_test('pass', index, test.__name__)

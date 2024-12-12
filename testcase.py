@@ -139,7 +139,7 @@ class TestCase:
         # Get and sort tests
         tests = instance.__get_tests()
         tests = instance.__order_tests(tests)
-           
+        
         for index, test in enumerate(tests):
             # Set up before running a test
             results, status = instance.__call_a_callable_safely(
@@ -153,7 +153,7 @@ class TestCase:
             match status:
                 case 'fail_slow': continue
                 case 'fail_fast': return results
-
+                
             # Run tests
             results, status = instance.__call_a_callable_safely(
                 test,
@@ -169,16 +169,21 @@ class TestCase:
 
             # Clean up
             results, status = instance.__call_a_callable_safely(
-                instance.tear_down(),
+                instance.tear_down,
                 test,
                 index,
                 results,
                 fail_fast
             )
-
+            
             match status:
-                case 'fail_slow': continue
-                case 'fail_fast': return results
+                case 'fail_slow': 
+                    continue
+                case 'fail_fast': 
+                    return results
+                case 'success': 
+                    results.add_test('pass', index, test.__name__)
+                    cls.do_cleanups()
 
         # Clean up class 
         TestCase.tear_down_class()

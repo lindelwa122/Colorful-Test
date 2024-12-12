@@ -220,8 +220,8 @@ class TestCase:
                 output_msg(
                     "err",
                     f'''
-                    Test Number: {error["order"]}'\n
-                    Test Name: {error["name"]}'\n
+                    Test Number: {error["order"]}
+                    Test Name: {error["name"]}
                     Error: {error["errors"]}\n'''
                 )
                 

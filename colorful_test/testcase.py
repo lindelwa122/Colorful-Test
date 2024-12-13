@@ -74,7 +74,11 @@ class TestCase:
         return tests
     
     def __order_tests(self, tests):
-        tests.sort(key=lambda test: test.__name__.split('_')[-1])
+        def sort_by(test):
+            key = test.__name__.split('_')[-1]
+            return int(key) if key.isdigit() else key
+        
+        tests.sort(key=sort_by)
         return tests
     
     def set_up(self):

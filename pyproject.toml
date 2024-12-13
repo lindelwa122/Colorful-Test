@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "colorful-test"
-version = "0.0.1"
+version = "0.0.3"
 description = ""
 authors = ["nqabenhle <nqmlabajhb024@student.wethinkcode.co.za>"]
 readme = "README.md"

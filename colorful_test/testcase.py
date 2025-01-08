@@ -76,7 +76,7 @@ class TestCase:
     def __order_tests(self, tests):
         def sort_by(test):
             key = test.__name__.split('_')[-1]
-            return int(key) if key.isdigit() else key
+            return int(key) if key.isdigit() else 0
         
         tests.sort(key=sort_by)
         return tests

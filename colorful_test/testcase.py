@@ -429,7 +429,7 @@ class TestCase:
         Test that sequence first contains the same elements as second,
         regardless of their order. Duplicates are not ignored.
         """
-        diff = []
+        diff, first, second = [], list(first), list(second)
         for item in first:
             if item in second: second.remove(item)
             else: diff.append(item)
@@ -437,7 +437,7 @@ class TestCase:
         if second: diff.extend(second)
 
         assert not diff, { 'first': first, 'second': second }
-
+        
     def assert_sequence_equal(self, first, second, seq_type=None):
         """
         Test that two sequences are equal. If a seq_type is supplied, 

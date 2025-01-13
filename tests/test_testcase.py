@@ -1,11 +1,13 @@
 from colorful_test.testcase import TestCase
 
 class TestTestCase(TestCase):
-    def handle_exc(exception, callable, *args, **kwargs):
+    def handle_exc(self, exception, callable, *args, **kwargs):
         try:
             callable(*args, **kwargs)
         except exception:
-            pass
+            return
+        
+        raise exception()
     
     def test_assert_raises_pass_0(self):
         # Simple error raised
@@ -46,24 +48,12 @@ class TestTestCase(TestCase):
             return x + 1
         
         self.handle_exc(AssertionError, self.assert_raises, ZeroDivisionError, does_not_raise_error)
-        
-        try:
-            self.assert_raises(ZeroDivisionError, does_not_raise_error)
-        except AssertionError:
-            pass
-        
-        try:
-            self.assert_raises(Exception, does_not_raise_error)
-        except AssertionError:
-            pass
+        self.handle_exc(AssertionError, self.assert_raises, ValueError, does_not_raise_error)
         
         def raises_an_unexpected_error():
             raise IndexError()
         
-        try:
-            self.assert_raises(ValueError, raises_an_unexpected_error)
-        except IndexError:
-            pass
+        self.handle_exc(IndexError, self.assert_raises, ValueError, raises_an_unexpected_error)
     
     # Test that assert_equal doesn't raise any errors for these cases
     def test_assert_equal_pass_2(self):
@@ -99,8 +89,12 @@ class TestTestCase(TestCase):
         # Simple comparisons
         try:
             self.assert_equal(1, 2)
-        except:
+        except AssertionError:
             pass
+        
+        
+        
+        
         
         
         

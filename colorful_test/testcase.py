@@ -447,7 +447,7 @@ class TestCase:
         if seq_type:
             assert first == second and type(first) == type(second) == seq_type, { 'first': first, 'second': second }
         else:
-            self.assert_sequence_equal(first, second)
+            self.assert_count_equal(first, second)
 
     def assert_list_equal(self, first, second):
         """

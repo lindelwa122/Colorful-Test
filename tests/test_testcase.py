@@ -361,7 +361,177 @@ class TestTestCase(TestCase):
         self.assert_does_not_raises(Exception, does_not_raise_error)
         self.assert_does_not_raises(ValueError, does_not_raise_error)
 
+    def test_assert_almost_equal_pass_28(self):
+        self.assert_almost_equal(3.14159, 3.1416, places=4)
+        self.assert_almost_equal(1.000001, 1.000002, places=5)
+        self.assert_almost_equal(-5.4321, -5.43210001)
+        self.assert_almost_equal(0.0, 0.0000001, places=6)
+        self.assert_almost_equal(100, 100.001, places=0)
+        
+    def test_assert_almost_equal_fail_29(self):
+        self.handle_exc(AssertionError, self.assert_almost_equal, 3.14159, 3.1415, places=5)
+        self.handle_exc(AssertionError, self.assert_almost_equal, 1.0001, 1.0002, places=4)
+        self.handle_exc(AssertionError, self.assert_almost_equal, -5.0, -5.01)
+        self.handle_exc(AssertionError, self.assert_almost_equal, 0.0, 0.001, places=3)
+        self.handle_exc(AssertionError, self.assert_almost_equal, 42, 43)
+        
+    def test_assert_not_almost_equal_pass_30(self):
+        self.assert_not_almost_equal(3.14159, 3.1415, places=5)
+        self.assert_not_almost_equal(1.0001, 1.0002, places=4)
+        self.assert_not_almost_equal(-5.0, -5.01)
+        self.assert_not_almost_equal(0.0, 0.001, places=3)
+        self.assert_not_almost_equal(42, 43)
+        
+    def test_assert_not_almost_equal_fail_31(self):
+        self.handle_exc(AssertionError, self.assert_not_almost_equal, 3.14159, 3.1416, places=4)
+        self.handle_exc(AssertionError, self.assert_not_almost_equal, 1.000001, 1.000002, places=5)
+        self.handle_exc(AssertionError, self.assert_not_almost_equal, -5.4321, -5.43210001)
+        self.handle_exc(AssertionError, self.assert_not_almost_equal, 0.0, 0.0000001, places=6)
+        self.handle_exc(AssertionError, self.assert_not_almost_equal, 100, 100.001, places=0)
+        
+    def test_assert_greater_pass_32(self):
+        self.assert_greater(5, 3)
+        self.assert_greater(10.5, 7.2)
+        self.assert_greater(3.1456, 3.1453)
+        self.assert_greater(0, -1)
+        self.assert_greater('b', 'a')
+        self.assert_greater([2, 1], [1, 2])
+        self.assert_greater([1, 2, 3], [1, 2])
+        
+    def test_assert_greater_fail_33(self):
+        self.handle_exc(AssertionError, self.assert_greater, 3, 5)
+        self.handle_exc(AssertionError, self.assert_greater, 7.2, 10.5)
+        self.handle_exc(AssertionError, self.assert_greater, -5, -1)
+        self.handle_exc(AssertionError, self.assert_greater, -1, 0)
+        self.handle_exc(AssertionError, self.assert_greater, 'a', 'b')
+        self.handle_exc(AssertionError, self.assert_greater, [1, 2], [1, 2, 3])
+        
+    def test_assert_less_pass_34(self):
+        self.assert_less(3, 5)
+        self.assert_less(7.2, 10.5)
+        self.assert_less(-5, -1)
+        self.assert_less(-1, 0)
+        self.assert_less('a', 'b')
+        self.assert_less([1, 2], [1, 2, 3])
+        
+    def test_assert_less_fail_35(self):
+        self.handle_exc(AssertionError, self.assert_less, 5, 3)
+        self.handle_exc(AssertionError, self.assert_less, 10.5, 7.2)
+        self.handle_exc(AssertionError, self.assert_less, 3.1456, 3.1453)
+        self.handle_exc(AssertionError, self.assert_less, 0, -1)
+        self.handle_exc(AssertionError, self.assert_less, 'b', 'a')
+        self.handle_exc(AssertionError, self.assert_less, [2, 1], [1, 2])
+        self.handle_exc(AssertionError, self.assert_less, [1, 2, 3], [1, 2])
+        
+    def test_assert_greater_equal_pass_36(self):
+        self.assert_greater_equal(5, 3)
+        self.assert_greater_equal(5, 5)
+        self.assert_greater_equal(10.5, 7.2)
+        self.assert_greater_equal(10, 10.0)
+        self.assert_greater_equal(-1, -5)
+        self.assert_greater_equal(-5, -5)
+        self.assert_greater_equal(0, -1)
+        self.assert_greater_equal('b', 'a')
+        self.assert_greater_equal('b', 'b')
+        self.assert_greater_equal([1, 2, 3], [1, 2])
+        self.assert_greater_equal([1, 2, 3], [1, 2, 3])
+        
+    def test_assert_greater_equal_fail_37(self):
+        self.handle_exc(AssertionError, self.assert_greater_equal, 3, 5)
+        self.handle_exc(AssertionError, self.assert_greater_equal, 7.2, 10.5)
+        self.handle_exc(AssertionError, self.assert_greater_equal, -5, -1)
+        self.handle_exc(AssertionError, self.assert_greater_equal, -2, -1)
+        self.handle_exc(AssertionError, self.assert_greater_equal, 'a', 'b')
+        self.handle_exc(AssertionError, self.assert_greater_equal, [1, 2], [1, 2, 3])
+        
+    def test_assert_less_equal_pass_38(self):
+        self.assert_less_equal(3, 5)
+        self.assert_less_equal(5, 5)
+        self.assert_less_equal(7.2, 10.5)
+        self.assert_less_equal(10.0, 10)
+        self.assert_less_equal(-5, -1)
+        self.assert_less_equal(-5, -5)
+        self.assert_less_equal(-2, -1)
+        self.assert_less_equal('a', 'b')
+        self.assert_less_equal('a', 'a')
+        self.assert_less_equal([1, 2], [1, 2, 3])
+        self.assert_less_equal([1, 2, 3], [1, 2, 3])
+        
+    def test_assert_less_equal_fail_39(self):
+        self.handle_exc(AssertionError, self.assert_less_equal, 5, 3)
+        self.handle_exc(AssertionError, self.assert_less_equal, 10.5, 7.2)
+        self.handle_exc(AssertionError, self.assert_less_equal, -1, -5)
+        self.handle_exc(AssertionError, self.assert_less_equal, 0, -1)
+        self.handle_exc(AssertionError, self.assert_less_equal, 'b', 'a')
+        self.handle_exc(AssertionError, self.assert_less_equal, [1, 2, 3], [1, 2])
+        
+    def test_assert_regex_pass_40(self):
+        self.assert_regex('hello', r'hello')
+        self.assert_regex('12345', r'\d+')
+        self.assert_regex('abc_def', r'abc_\w+')
+        self.assert_regex('hello123', r'hello\d+')
+        self.assert_regex('aBc', r'[a-zA-Z]+')
+        self.assert_regex('2023-01-10', r'\d{4}-\d{2}-\d{2}')
+        
+    def test_assert_regex_fail_41(self):
+        self.handle_exc(AssertionError, self.assert_regex, 'goodbye world', r'hello')
+        self.handle_exc(AssertionError, self.assert_regex, 'abc123', r'^\d+$')
+        self.handle_exc(AssertionError, self.assert_regex, '2003/01/10', r'\d{4}-\d{2}-\d{2}')
+        self.handle_exc(AssertionError, self.assert_regex, 'HELLO', r'^hello$')
+        self.handle_exc(AssertionError, self.assert_regex, '', r'.+')
+        
+    def test_assert_not_regex_pass_42(self):
+        self.assert_not_regex('goodbye world', r'hello')
+        self.assert_not_regex('abc123', r'^\d+$')
+        self.assert_not_regex('2003/01/10', r'\d{4}-\d{2}-\d{2}')
+        self.assert_not_regex('HELLO', r'^hello$')
+        self.assert_not_regex('', r'.+')
+        
+    def test_assert_not_regex_fail_43(self):
+        self.handle_exc(AssertionError, self.assert_not_regex, 'hello', r'hello')
+        self.handle_exc(AssertionError, self.assert_not_regex, '12345', r'\d+')
+        self.handle_exc(AssertionError, self.assert_not_regex, 'abc_def', r'abc_\w+')
+        self.handle_exc(AssertionError, self.assert_not_regex, 'hello123', r'hello\d+')
+        self.handle_exc(AssertionError, self.assert_not_regex, 'aBc', r'[a-zA-Z]+')
+        self.handle_exc(AssertionError, self.assert_not_regex, '2023-01-10', r'\d{4}-\d{2}-\d{2}')
+        
+    def test_assert_count_equal_pass_44(self):
+        self.assert_count_equal([1, 2, 3], [1, 2, 3])
+        self.assert_count_equal([1, 2, 2], [2, 1, 2])
+        self.assert_count_equal([], [])
+        self.assert_count_equal('abc', 'cab')
+        self.assert_count_equal((1, 2, 3), (3, 2, 1))
+        self.assert_count_equal({1: 'a', 2: 'b', 3: 'c'}, {3: 'c', 1: 'a', 2: 'b'})
+        self.assert_count_equal([True, False, True], [False, True, True])
+        self.assert_count_equal([1, 'a', 2.1], ['a', 2.1, 1])
+        self.assert_count_equal([1, 2, 3], (1, 2, 3))
+        
+    def test_assert_count_equal_fail_45(self):
+        self.handle_exc(AssertionError, self.assert_count_equal, [1, 2, 3], [1, 2])
+        self.handle_exc(AssertionError, self.assert_count_equal, [1, 2, 2], [1, 2, 3])
+        self.handle_exc(AssertionError, self.assert_count_equal, 'abc', 'abcd')
+        self.handle_exc(AssertionError, self.assert_count_equal, ['a', 'b', 'c', 'd'], ['a', 'c', 'b'])
+        self.handle_exc(AssertionError, self.assert_count_equal, [1, 2, 3], [1, 2, 3, 2])
+        
+    def test_assert_sequence_equal_pass_46(self):
+        self.assert_sequence_equal([1, 2, 3], (1, 2, 3))
+        self.assert_sequence_equal([1, 2, 3], [1, 2, 3])
+        self.assert_sequence_equal('hello', 'hello')
+        self.assert_sequence_equal((1, 2, 3), (1, 2, 3))
+        self.assert_sequence_equal([], [])
+        self.assert_sequence_equal([True, False], [True, False])
+        self.assert_sequence_equal(['a', 1, 2.0], ['a', 1, 2.0])
+        
+    def test_assert_sequence_equal_fail_47(self):
+        self.handle_exc(AssertionError, self.assert_sequence_equal, [1, 2, 3], [3, 2, 1])
+        self.handle_exc(AssertionError, self.assert_sequence_equal, [1, 2, 3], [1, 2])
+        self.handle_exc(AssertionError, self.assert_sequence_equal, 'hello', 'helo')
+        self.handle_exc(AssertionError, self.assert_sequence_equal, (1, 2, 3), (1, 2, 4))
+        self.handle_exc(AssertionError, self.assert_sequence_equal, ['a', 1, 2.0], ('a', 1, 3.0))
+        self.handle_exc(AssertionError, self.assert_sequence_equal, 'abc', 'ab')
+        
     
+        
         
 if __name__ == '__main__': 
     TestTestCase.run_and_output_results(fail_fast=False)

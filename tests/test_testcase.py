@@ -8,6 +8,7 @@ from colorful_test.skip_test import skip_test, skip_test_if, skip_test_unless
 
 class TestTestCase(TestCase):
     def handle_exc(self, exception, callable, *args, **kwargs):
+        "Calls a callable and if the expected exception was not raised an AssertionError will be raised"
         try:
             callable(*args, **kwargs)
         except exception:

@@ -4,6 +4,7 @@ from os import path as os_path
 sys_path.append(os_path.abspath(os_path.join(os_path.dirname(__file__), '..')))
 
 from colorful_test.testcase import TestCase
+from colorful_test.skip_test import skip_test, skip_test_if, skip_test_unless
 
 class TestTestCase(TestCase):
     def handle_exc(self, exception, callable, *args, **kwargs):
@@ -560,12 +561,135 @@ class TestTestCase(TestCase):
         
     @classmethod
     def set_up_class(cls):
-        cls.variable = 'setting up class'
+        cls.variable = 100
         return super().set_up_class()
         
     def test_set_up_class_50(self):
-        print(self.variable)
+        # Test that variable was initialized
+        self.assert_true(hasattr(self, 'variable'))
         
+        # Test that the value of variable is 100
+        self.assert_equal(self.variable, 100)
+        
+        # Test that value of variable can be incremented
+        self.variable += 50
+        self.assert_equal(self.variable, 150)
+        
+    # Test that variable is not resetted to 100
+    def test_set_up_class_51(self):
+        self.assert_equal(self.variable, 150)
+        
+    def set_up(self):
+        self.start = 10
+        return super().set_up()
+    
+    def test_set_up_52(self):
+        # Test that start was initialized
+        self.assert_true(hasattr(self, 'start'))
+        
+        # Test that the value of start is 10
+        self.assert_equal(self.start, 10)
+        
+        # Test that value of start can be incremented
+        self.start += 50
+        self.assert_equal(self.start, 60)
+        
+    # Test that start is resetted to 10
+    def test_set_up_53(self):
+        self.assert_equal(self.start, 10)
+        
+    # Test tear_down
+    def tear_down(self):
+        self.status = 'success'
+        return super().tear_down()
+    
+    # Test that tear_down is called
+    def test_tear_down_54(self):
+        self.assert_true(hasattr(self, 'status'))
+        self.assert_equal(self.status, 'success')
+        
+        self.status = 'failure'
+        self.assert_equal(self.status, 'failure')
+        
+    # Test that tear_down resetted status
+    def test_tear_down_55(self):
+        self.assert_equal(self.status, 'success')
+        
+    # Test results + skip tests class + tear_down_+ add_cleanup + do_cleanups
+    def test_results_56(self):
+        # Clean ups
+        def increment_counter(cls):
+            cls.counter += 1
+        
+        class TestRusults(TestCase):
+            @classmethod
+            def set_up_class(cls):
+                # Add clean ups
+                cls.add_cleanup(increment_counter, cls)
+                
+                cls.status = 'start'
+                cls.counter = 0
+                return super().set_up_class()
+            
+            @classmethod
+            def tear_down_class(cls):
+                cls.status = 'end'
+                cls.class_no = 575
+                return super().tear_down_class()
+            
+            def test_1(self):
+                self.assert_true(hasattr(self, 'status'))
+                self.assert_equal(self.status, 'start')
+            
+            def test_2(self):
+                pass
+            
+            def test_3(self):
+                assert 1 == 2
+                
+            def test_4(self):
+                assert 'hello' == 'hi'
+                
+            # Test skip test
+            @skip_test('Testing the skip_test function')
+            def test_5(self):
+                # This will never run
+                assert 5 == 4
+                
+            @skip_test_if(1 == 1, reason='Testing the skip_test_if function')
+            def test_6(self):
+                # This will never run
+                assert False
+                
+            @skip_test_if(1 == 3, reason='Testing the skip_test function')
+            def test_7(self):
+                # This will run
+                assert True
+                
+            @skip_test_unless(2+2==5, reason='Testing the skip_test_unless function')
+            def test_8(self):
+                # This will never run
+                assert 2 + 2 == 5
+                
+            @skip_test_unless(2+2==4, reason='Testing the skip_test_unless function')
+            def test_9(self):
+                # This will  run
+                assert 2 + 2 == 4
+                
+            def test_10(self):
+                raise ValueError('just testing a few things')
+                
+        results = TestRusults.run(fail_fast=False)
+        self.assert_equal(results.get_total_tests_ran(), 10)
+        self.assert_equal(len(results.passed), 4)
+        self.assert_equal(len(results.failed), 2)
+        self.assert_equal(len(results.skipped), 3)
+        self.assert_equal(len(results.errors), 1)
+        self.assert_equal(TestRusults.counter, 10)
+        self.assert_equal(TestRusults.status, 'end')
+        self.assert_equal(TestRusults.class_no, 575)
+        
+            
 if __name__ == '__main__': 
     TestTestCase.run_and_output_results(fail_fast=False)
         

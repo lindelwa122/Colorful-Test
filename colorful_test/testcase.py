@@ -128,6 +128,14 @@ class TestCase:
         default implementation does nothing.
         """
         pass
+    
+    def final_message(self):
+        """
+        This method is called after tests in an individual class run. The
+        returned message is printed as the last message if all tests passed.
+        The default implementation returns None
+        """
+        return None
 
     @classmethod
     def run(cls, fail_fast=True):
@@ -208,6 +216,10 @@ class TestCase:
 
         # Clean up class 
         cls.tear_down_class()
+        
+        # Show final message
+        final_msg = instance.final_message()
+        if final_msg: output_msg('suc', final_msg)
         
         # End timer
         end = time()

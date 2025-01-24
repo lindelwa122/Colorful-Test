@@ -292,6 +292,8 @@ class TestCase:
                     sep='\n',
                     end='\n\n',
                 )
+                
+        return results
     
     def assert_equal(self, first, second):
         """

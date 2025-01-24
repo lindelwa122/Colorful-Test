@@ -20,10 +20,11 @@ class TestCase:
             self.failed = []
             self.errors = []
             self.passed = []
+            self.skipped = []
             self.time = 0
 
         def get_total_tests_ran(self):
-            return len(self.failed) + len(self.errors) + len(self.passed)
+            return len(self.failed) + len(self.errors) + len(self.passed) + len(self.skipped)
 
         def add_test(self, status, order_num, name, errors=None):
             match status:
@@ -35,6 +36,9 @@ class TestCase:
 
                 case 'fail':
                     self.failed.append({ 'order': order_num, 'name': name })
+                    
+                case 'skip':
+                    self.skipped.append({ 'order': order_num, 'name': name, 'reason': errors })
 
     def __init_subclass__(cls, **kwargs):
         cls.clean_ups = []
@@ -44,7 +48,7 @@ class TestCase:
         try:
             try:
                 callable()
-            except (AssertionError, SkipTest) as err:
+            except AssertionError as err:
                 results.add_test('fail', index, test.__name__)
 
                 # Do cleanups
@@ -52,6 +56,14 @@ class TestCase:
 
                 if not fail_fast: return results, 'fail_slow'
                 else: return results, 'fail_fast'
+                
+            except SkipTest as err:
+                results.add_test('skip', index, test.__name__, err)
+                
+                # Do cleanups
+                self.do_cleanups()
+                
+                return results, 'fail_slow'
 
         except Exception as err:
             results.add_test('error', index, test.__name__, err)
@@ -212,6 +224,7 @@ class TestCase:
             f'Ran {results.get_total_tests_ran()} tests in {results.time} ms',
             f'{len(results.passed)} passed',
             f'{len(results.failed)} failed',
+            f'{len(results.skipped)} skipped',
             f'{len(results.errors)} error(s)',
             sep='\n',
             end='\n\n',
@@ -240,13 +253,19 @@ class TestCase:
                     sep='\n',
                     end='\n\n',
                 )
+                
+        if results.skipped:
+            print('Skipped: ')
+            
+            for test in results.skipped:
+                print(
+                    f'Test Number: {test["order"]}',
+                    f'Test Name: {test["name"]}',
+                    f'Reason: {test["reason"]}',
+                    sep='\n',
+                    end='\n\n',
+                )
     
-    def skip_test(cls, reason):
-        """
-        Calling this during a test method or setUp() skips the current test.
-        """
-        raise SkipTest(reason)
-
     def assert_equal(self, first, second):
         """
         Test that first and second are equal. If the values does not 
@@ -511,4 +530,4 @@ class TestCase:
             kwargs = clean_up['kwargs']
             
             callable(*args, **kwargs)
-   
+            

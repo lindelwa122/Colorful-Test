@@ -1,4 +1,4 @@
-from sys import path as sys_path
+from sys import exit, path as sys_path
 from os import path as os_path
 
 sys_path.append(os_path.abspath(os_path.join(os_path.dirname(__file__), '..')))
@@ -692,5 +692,7 @@ class TestTestCase(TestCase):
         
             
 if __name__ == '__main__': 
-    TestTestCase.run_and_output_results(fail_fast=False)
+    results = TestTestCase.run_and_output_results(fail_fast=False)
+    if results.score == 100: exit(0)
+    else: exit(1)
         

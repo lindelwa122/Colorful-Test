@@ -364,11 +364,9 @@ class TestCase:
         pattern = compile(regex)
         try:
             callable(*args, **kwargs)
-            assert False, { 
-            'first': exception, 
-            'second': { 'callable': callable, 'args': args, 'kwargs': kwargs, 'regex': regex } }
+            assert False
         except exception as exc:
-            assert pattern.match(exc), { 'expected': f'error message to match {regex}', 'received': exc } 
+            assert pattern.match(str(exc)), { 'exc': str(exc) }
 
     def assert_almost_equal(self, first, second, places=7):
         """

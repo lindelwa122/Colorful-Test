@@ -22,6 +22,7 @@ class TestCase:
             self.passed = []
             self.skipped = []
             self.time = 0
+            self.score = 0
 
         def get_total_tests_ran(self):
             return len(self.failed) + len(self.errors) + len(self.passed) + len(self.skipped)
@@ -212,13 +213,16 @@ class TestCase:
         end = time()
         
         results.time = f'{(end - start) * 1000:.6f}'
+        
+        # Set score
+        results.score = round((len(results.passed)/len(tests)) * 100, 2)
 
         return results
 
     @classmethod
-    def run_and_output_results(cls, fail_fast=True):
+    def run_and_output_results(cls, fail_fast=True, show_grade=True):
         results = cls.run(fail_fast)
-
+        
         print(
             '========================================================\n',
             f'Ran {results.get_total_tests_ran()} tests in {results.time} ms',
@@ -229,6 +233,11 @@ class TestCase:
             sep='\n',
             end='\n\n',
         )
+        
+        if show_grade and results.score < 80:
+            output_msg('err', f'Grade: {results.score}%\n')
+        elif show_grade:
+            output_msg('suc', f'Grade: {results.score}%\n')
         
         if results.errors:
             print('Errors: ')

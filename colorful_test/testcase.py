@@ -217,17 +217,17 @@ class TestCase:
         # Clean up class 
         cls.tear_down_class()
         
+        # Set score
+        results.score = round((len(results.passed)/len(tests)) * 100, 2)
+        
         # Show final message
         final_msg = instance.final_message()
-        if final_msg: output_msg('suc', final_msg)
+        if final_msg and results.score == 100: output_msg('suc', final_msg)
         
         # End timer
         end = time()
         
         results.time = f'{(end - start) * 1000:.6f}'
-        
-        # Set score
-        results.score = round((len(results.passed)/len(tests)) * 100, 2)
 
         return results
 

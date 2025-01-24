@@ -9,7 +9,6 @@ class TestTestCase(TestCase):
     def handle_exc(self, exception, callable, *args, **kwargs):
         try:
             callable(*args, **kwargs)
-            print('i do get here')
         except exception:
             return 
 
@@ -535,8 +534,37 @@ class TestTestCase(TestCase):
         self.handle_exc(AssertionError, self.assert_sequence_equal, ['a', 1, 2.0], ('a', 1, 3.0))
         self.handle_exc(AssertionError, self.assert_sequence_equal, 'abc', 'ab')
         
-    
+    def test_assert_raises_regex_pass_48(self):
+        def raise_value_error():
+            raise ValueError('This is an example error message')
         
+        def raise_type_error():
+            raise TypeError('Invalid type provided: expected int, got str')
+        
+        def raise_custom_error():
+            raise RuntimeError('Critical system failure: Code 500')
+        
+        self.assert_raises_regex(ValueError, r'.*example error.*', raise_value_error)
+        self.assert_raises_regex(TypeError, r'.*expected int.*', raise_type_error)
+        self.assert_raises_regex(RuntimeError, r'.*Code \d+.*', raise_custom_error)
+        
+    def test_assert_raises_regex_fail_49(self):
+        def raise_value_error():
+            raise ValueError('This is an example error message boohoo')
+        
+        self.handle_exc(AssertionError, self.assert_raises_regex, KeyError, r'.*some key error.*', raise_value_error)
+        self.handle_exc(AssertionError, self.assert_raises_regex, ValueError, r'.*wrong message.*', raise_value_error)
+        self.handle_exc(AssertionError, self.assert_raises_regex, ValueError, r'.*example error.*', lambda: None)
+        self.handle_exc(AssertionError, self.assert_raises_regex, ValueError, r'example error', raise_value_error)
+        
+        
+    @classmethod
+    def set_up_class(cls):
+        cls.variable = 'setting up class'
+        return super().set_up_class()
+        
+    def test_set_up_class_50(self):
+        print(self.variable)
         
 if __name__ == '__main__': 
     TestTestCase.run_and_output_results(fail_fast=False)

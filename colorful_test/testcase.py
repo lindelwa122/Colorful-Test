@@ -129,10 +129,10 @@ class TestCase:
         instance = cls()
         
         # Create test results
-        results = TestCase.TestResult()
+        results = cls.TestResult()
 
         # Set up class
-        TestCase.set_up_class()
+        cls.set_up_class()
 
         # Get and sort tests
         tests = instance.__get_tests()
@@ -194,7 +194,7 @@ class TestCase:
                     cls.do_cleanups()
 
         # Clean up class 
-        TestCase.tear_down_class()
+        cls.tear_down_class()
         
         # End timer
         end = time()

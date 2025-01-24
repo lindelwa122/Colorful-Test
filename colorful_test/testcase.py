@@ -367,6 +367,8 @@ class TestCase:
             assert False
         except exception as exc:
             assert pattern.match(str(exc)), { 'exc': str(exc) }
+        except:
+            assert False
 
     def assert_almost_equal(self, first, second, places=7):
         """

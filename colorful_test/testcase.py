@@ -136,6 +136,13 @@ class TestCase:
         The default implementation returns None
         """
         return None
+    
+    def __calculate_elapsed_time(self, start, end):
+        final_time = end - start
+        if final_time >= 0.1:
+            return f'{final_time * 100:.6f}'
+        else:
+            return f'{final_time * 1000:.6f}'
 
     @classmethod
     def run(cls, fail_fast=True):
@@ -174,7 +181,7 @@ class TestCase:
                     continue
                 case 'fail_fast':
                     end = time()
-                    results.time = f'{(end - start) * 1000:.6f}' 
+                    results.time = instance.__calculate_elapsed_time(start, end)
                     return results
                 
             # Run tests
@@ -191,7 +198,7 @@ class TestCase:
                     continue
                 case 'fail_fast': 
                     end = time()
-                    results.time = f'{(end - start) * 1000:.6f}'
+                    results.time = instance.__calculate_elapsed_time(start, end)
                     return results
 
             # Clean up
@@ -207,8 +214,7 @@ class TestCase:
                 case 'fail_slow': 
                     continue
                 case 'fail_fast': 
-                    end = time()
-                    results.time = f'{(end - start) * 1000:.6f}'
+                    results.time = instance.__calculate_elapsed_time(start, end)
                     return results
                 case 'success': 
                     results.add_test('pass', index, test.__name__)
@@ -227,7 +233,7 @@ class TestCase:
         # End timer
         end = time()
         
-        results.time = f'{(end - start) * 1000:.6f}'
+        results.time = instance.__calculate_elapsed_time(start, end)
 
         return results
 

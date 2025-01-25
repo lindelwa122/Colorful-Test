@@ -23,4 +23,5 @@ def run_tests(args):
             execute_file(arg)
 
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    main()

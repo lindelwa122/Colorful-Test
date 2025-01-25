@@ -1,6 +1,10 @@
 __all__ = [
-    'SkipTest', 'show_message', 'skip_test', 'skip_test_if', 
-    'skip_test_unless', 'TestCase'
+    'SkipTest',
+    'show_message',
+    'skip_test',
+    'skip_test_if',
+    'skip_test_unless',
+    'TestCase',
 ]
 
 from .exceptions import SkipTest

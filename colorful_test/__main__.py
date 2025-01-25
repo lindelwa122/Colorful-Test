@@ -1,20 +1,21 @@
-import subprocess
 from sys import argv
+from typing import List
+import subprocess
 import os
 
 
-def main():
+def main() -> None:
     args = argv[1:]
 
     if len(args) < 2:
         print('Usage: python -m colorful-test <directory_name>/<file_name>')
 
 
-def execute_file(filename):
+def execute_file(filename: str) -> None:
     subprocess.run(['python3', filename], capture_output=True, text=True)
 
 
-def run_tests(args):
+def run_tests(args: List[str]) -> None:
     for arg in args:
         if os.path.isdir(arg):
             run_tests(os.listdir(arg))

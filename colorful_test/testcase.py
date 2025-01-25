@@ -1,5 +1,6 @@
 from re import compile
 from time import time
+from typing import Any, Callable, Dict, List, Pattern, Tuple
 
 from .exceptions import SkipTest
 from .message import output_msg
@@ -18,15 +19,15 @@ class TestCase:
         functionalities to display output to the screen.
         """
 
-        def __init__(self):
-            self.failed = []
-            self.errors = []
-            self.passed = []
-            self.skipped = []
-            self.time = 0
-            self.score = 0
+        def __init__(self) -> None:
+            self.failed: List[Dict[str, Any]] = []
+            self.errors: List[Dict[str, Any]] = []
+            self.passed: List[Dict[str, Any]] = []
+            self.skipped: List[Dict[str, Any]] = []
+            self.time = ''
+            self.score = 0.0
 
-        def get_total_tests_ran(self):
+        def get_total_tests_ran(self) -> int:
             return (
                 len(self.failed)
                 + len(self.errors)
@@ -34,7 +35,7 @@ class TestCase:
                 + len(self.skipped)
             )
 
-        def add_test(self, status, order_num, name, errors=None):
+        def add_test(self, status: str, order_num: int, name: str, errors: Exception | None = None) -> None:
             match status:
                 case 'error':
                     self.errors.append(
@@ -52,11 +53,11 @@ class TestCase:
                         {'order': order_num, 'name': name, 'reason': errors}
                     )
 
-    def __init_subclass__(cls, **kwargs):
-        cls.clean_ups = []
+    def __init_subclass__(cls, **kwargs: Any) -> None:
+        cls.clean_ups = [] # type: ignore[attr-defined]
         super().__init_subclass__(**kwargs)
 
-    def __call_a_callable_safely(self, callable, test, index, results, fail_fast):
+    def __call_a_callable_safely(self, callable: Callable[[], Any], test: Callable[[], None], index: int, results: TestResult, fail_fast: bool) -> Tuple[TestResult, str]:
         try:
             try:
                 callable()
@@ -92,7 +93,7 @@ class TestCase:
 
         return results, 'success'
 
-    def __get_tests(self):
+    def __get_tests(self) -> List[Callable[[], None]]:
         tests = []
 
         for method in dir(self):
@@ -101,7 +102,7 @@ class TestCase:
 
         return tests
 
-    def __order_tests(self, tests):
+    def __order_tests(self, tests: List[Callable[[], None]]) -> List[Callable[[], None]]:
         def sort_by(test):
             key = test.__name__.split('_')[-1]
             return int(key) if key.isdigit() else 0
@@ -109,7 +110,7 @@ class TestCase:
         tests.sort(key=sort_by)
         return tests
 
-    def set_up(self):
+    def set_up(self) -> None:
         """
         This method is called immediately before calling a test method;
         other than AssertionError or SkipTest, any exception raised by
@@ -118,7 +119,7 @@ class TestCase:
         """
         pass
 
-    def tear_down(self):
+    def tear_down(self) -> None:
         """
         This method is called immediately after calling a test method;
         other than AssertionError or SkipTest, any exception raised by
@@ -129,7 +130,7 @@ class TestCase:
         pass
 
     @classmethod
-    def set_up_class(cls):
+    def set_up_class(cls) -> None:
         """
         This method is called before tests in an individual class run. The
         default implementation does nothing.
@@ -137,14 +138,14 @@ class TestCase:
         pass
 
     @classmethod
-    def tear_down_class(cls):
+    def tear_down_class(cls) -> None:
         """
         This method is called after tests in an individual class run. The
         default implementation does nothing.
         """
         pass
 
-    def final_message(self):
+    def final_message(self) -> str | None:
         """
         This method is called after tests in an individual class run. The
         returned message is printed as the last message if all tests passed.
@@ -152,7 +153,7 @@ class TestCase:
         """
         return None
 
-    def __calculate_elapsed_time(self, start, end):
+    def __calculate_elapsed_time(self, start: float, end: float) -> str:
         final_time = end - start
         if final_time >= 0.1:
             return f'{final_time * 100:.6f}'
@@ -160,11 +161,12 @@ class TestCase:
             return f'{final_time * 1000:.6f}'
 
     @classmethod
-    def run(cls, fail_fast=True):
+    def run(cls, fail_fast: bool=True) -> TestResult:
         """
         Run the tests, collecting the results into TestResult object. The
         result object is returned to run()'s caller.
         """
+
         # Start timer
         start = time()
 
@@ -242,7 +244,7 @@ class TestCase:
         return results
 
     @classmethod
-    def run_and_output_results(cls, fail_fast=True, show_grade=True):
+    def run_and_output_results(cls, fail_fast: bool=True, show_grade: bool=True) -> TestResult:
         results = cls.run(fail_fast)
 
         print(
@@ -299,7 +301,7 @@ class TestCase:
 
         return results
 
-    def assert_equal(self, first, second):
+    def assert_equal(self, first: Any, second: Any) -> None:
         """
         Test that first and second are equal. If the values does not
         compare, the test will fail.
@@ -315,74 +317,74 @@ class TestCase:
         else:
             assert first == second, {'first': first, 'second': second}
 
-    def assert_not_equal(self, first, second):
+    def assert_not_equal(self, first: Any, second: Any) -> None:
         """
         Test that first and second are not equal. If the values do compare
         equal, the test will fail
         """
         assert first != second, {'first': first, 'second': second}
 
-    def assert_true(self, expr):
+    def assert_true(self, expr: Any) -> None:
         """
         Test that expr is True.
         """
         assert bool(expr), {'first': expr, 'second': True}
 
-    def assert_false(self, expr):
+    def assert_false(self, expr: Any) -> None:
         """
         Test that expr is False.
         """
         assert not bool(expr), {'first': expr, 'second': False}
 
-    def assert_is(self, first, second):
+    def assert_is(self, first: Any, second: Any) -> None:
         """
         Test that first and second evaluate to the same object.
         """
         assert first is second, {'first': first, 'second': second}
 
-    def assert_is_not(self, first, second):
+    def assert_is_not(self, first: Any, second: Any) -> None:
         """
         Test that first and second does not evaluate to the same object.
         """
         assert first is not second, {'first': first, 'second': second}
 
-    def assert_is_none(self, expr):
+    def assert_is_none(self, expr: Any) -> None:
         """
         Test that expr is None.
         """
         assert expr is None, {'first': expr, 'second': None}
 
-    def assert_is_not_none(self, expr):
+    def assert_is_not_none(self, expr: Any) -> None:
         """
         Test that expr is not None.
         """
         assert expr is not None, {'first': expr, 'second': None}
 
-    def assert_in(self, first, second):
+    def assert_in(self, first: Any, second: Any) -> None:
         """
         Test that first is in second.
         """
         assert first in second, {'first': first, 'second': second}
 
-    def assert_not_in(self, first, second):
+    def assert_not_in(self, first: Any, second: Any) -> None:
         """
         Test that first is not in second.
         """
         assert first not in second, {'first': first, 'second': second}
 
-    def assert_is_instance(self, obj, cls):
+    def assert_is_instance(self, obj: object, cls: type) -> None:
         """
         Test that obj is an instance of cls.
         """
         assert isinstance(obj, cls), {'first': obj, 'second': cls}
 
-    def assert_not_is_instance(self, obj, cls):
+    def assert_not_is_instance(self, obj: object, cls: type) -> None:
         """
         Test that obj is not an instance of cls.
         """
         assert not isinstance(obj, cls), {'first': obj, 'second': cls}
 
-    def assert_raises(self, exception, callable, *args, **kwargs):
+    def assert_raises(self, exception: BaseException, callable: Callable[[Any], Any], *args: Any, **kwargs: Any) -> None:
         """
         Test that an exception (specific) is raised when callable is
         called with any positional or keyword arguments. The test passes
@@ -395,10 +397,10 @@ class TestCase:
                 'first': exception,
                 'second': {'callable': callable, 'args': args, 'kwargs': kwargs},
             }
-        except exception:
+        except exception: # type: ignore[misc]
             assert True
 
-    def assert_does_not_raises(self, exception, callable, *args, **kwargs):
+    def assert_does_not_raises(self, exception: BaseException, callable: Callable[[Any], Any], *args: Any, **kwargs: Any) -> None:
         """
         Test that an exception (specific) is not raised when callable is
         called with any positional or keyword arguments. The test passes
@@ -408,13 +410,13 @@ class TestCase:
         try:
             callable(*args, **kwargs)
             assert True
-        except exception:
+        except exception: # type: ignore[misc]
             assert False, {
                 'first': exception,
                 'second': {'callable': callable, 'args': args, 'kwargs': kwargs},
             }
 
-    def assert_raises_regex(self, exception, regex, callable, *args, **kwargs):
+    def assert_raises_regex(self, exception: Exception, regex: str, callable: Callable[[Any], Any], *args: Any, **kwargs: Any) -> None:
         """
         Like assertRaises() but also tests that regex matches on the
         string representation of the raised exception.
@@ -423,12 +425,12 @@ class TestCase:
         try:
             callable(*args, **kwargs)
             assert False
-        except exception as exc:
+        except exception as exc: # type: ignore[misc]
             assert pattern.match(str(exc)), {'exc': str(exc)}
         except Exception:
             assert False
 
-    def assert_almost_equal(self, first, second, places=7):
+    def assert_almost_equal(self, first: Any, second: Any, places: int=7) -> None:
         """
         Test that first and second are approximately equal by computing
         the difference, rounding to the given number of decimal places
@@ -436,7 +438,7 @@ class TestCase:
         """
         assert round(first - second, places) == 0, {'first': first, 'second': second}
 
-    def assert_not_almost_equal(self, first, second, places=7):
+    def assert_not_almost_equal(self, first: Any, second: Any, places: int=7) -> None:
         """
         Test that first and second are not approximately equal by
         computing the difference, rounding to the given number of decimal
@@ -444,45 +446,45 @@ class TestCase:
         """
         assert round(first - second, places) != 0, {'first': first, 'second': second}
 
-    def assert_greater(self, first, second):
+    def assert_greater(self, first: Any, second: Any) -> None:
         """
         Test that first is > than the second. If not, the test will fail.
         """
         assert first > second, {'first': first, 'second': second}
 
-    def assert_greater_equal(self, first, second):
+    def assert_greater_equal(self, first: Any, second: Any) -> None:
         """
         Test that first is >= than the second. If not, the test will fail.
         """
         assert first >= second, {'first': first, 'second': second}
 
-    def assert_less(self, first, second):
+    def assert_less(self, first: Any, second: Any) -> None:
         """
         Test that first is < than the second. If not, the test will fail.
         """
         assert first < second, {'first': first, 'second': second}
 
-    def assert_less_equal(self, first, second):
+    def assert_less_equal(self, first: Any, second: Any) -> None:
         """
         Test that first is <= than the second. If not, the test will fail.
         """
         assert first <= second, {'first': first, 'second': second}
 
-    def assert_regex(self, text, regex):
+    def assert_regex(self, text: str, regex: Pattern[str]) -> None:
         """
         Test that a regex search matches the text.
         """
         pattern = compile(regex)
         assert pattern.match(text), {'first': text, 'second': regex}
 
-    def assert_not_regex(self, text, regex):
+    def assert_not_regex(self, text: str, regex: Pattern[str]) -> None:
         """
         Test that a regex search does not math the text.
         """
         pattern = compile(regex)
         assert not pattern.match(text), {'first': text, 'second': regex}
 
-    def assert_count_equal(self, first, second):
+    def assert_count_equal(self, first: Any, second: Any) -> None:
         """
         Test that sequence first contains the same elements as second,
         regardless of their order. Duplicates are not ignored.
@@ -499,7 +501,7 @@ class TestCase:
 
         assert not diff, {'first': first, 'second': second}
 
-    def assert_sequence_equal(self, first, second, seq_type=None):
+    def assert_sequence_equal(self, first: Any, second: Any, seq_type: Any | None=None) -> None:
         """
         Test that two sequences are equal. If a seq_type is supplied,
         both first and second must be instances of seq_type or a failure
@@ -518,19 +520,19 @@ class TestCase:
                 if item != second[index]:
                     assert False, {'first': first, 'second': second}
 
-    def assert_list_equal(self, first, second):
+    def assert_list_equal(self, first: Any, second: Any) -> Any:
         """
         Test that two lists are equal.
         """
         self.assert_sequence_equal(first, second, list)
 
-    def assert_tuple_equal(self, first, second):
+    def assert_tuple_equal(self, first: Any, second: Any) -> None:
         """
         Test that two tuples are equal.
         """
         self.assert_sequence_equal(first, second, tuple)
 
-    def assert_set_equal(self, first, second):
+    def assert_set_equal(self, first: Any, second: Any) -> None:
         """
         Test that two sets are equal.
 
@@ -539,14 +541,14 @@ class TestCase:
         """
         self.assert_sequence_equal(first, second, set)
 
-    def assert_dict_equal(self, first, second):
+    def assert_dict_equal(self, first: Any, second: Any) -> None:
         """
         Test that two dictionaries are equal.
         """
         self.assert_sequence_equal(first, second, dict)
 
     @classmethod
-    def add_cleanup(cls, function, *args, **kwargs):
+    def add_cleanup(cls, function: Callable[[Any], None], *args: Any, **kwargs: Any) -> None:
         """
         Add a function to be called after tearDown() to clean up resources
         used during the test. Functions will be called in reverse order to
@@ -557,7 +559,7 @@ class TestCase:
         If setUp() fails meaning that tearDown() is not called, then any
         cleanup functions will still be called.
         """
-        cls.clean_ups.append({'callable': function, 'args': args, 'kwargs': kwargs})
+        cls.clean_ups.append({'callable': function, 'args': args, 'kwargs': kwargs}) # type: ignore[attr-defined]
 
     @classmethod
     def do_cleanups(cls):

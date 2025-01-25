@@ -1,8 +1,11 @@
-from .exceptions import SkipTest
 from functools import wraps
+from typing import Any, Callable
+
+from .exceptions import SkipTest
+from .skip_test import Decorator
 
 
-def output_msg(type, msg):
+def output_msg(type: str, msg: str) -> None:
     match type:
         case 'err':
             print(f'\033[31m\u00d7 {msg}\033[0m')
@@ -10,10 +13,10 @@ def output_msg(type, msg):
             print(f'\033[32m\u2713 {msg}\033[0m')
 
 
-def show_message(fail=None, success=None):
-    def decorator(func):
+def show_message(fail: str | None=None, success: str | None=None) -> Decorator:
+    def decorator(func: Callable[[], None]):
         @wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: Any, **kwargs: Any):
             try:
                 func(*args, **kwargs)
 
@@ -37,5 +40,4 @@ def show_message(fail=None, success=None):
                 raise err
 
         return wrapper
-
     return decorator

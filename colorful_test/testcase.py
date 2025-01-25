@@ -28,6 +28,7 @@ class TestCase:
             self.score = 0.0
 
         def get_total_tests_ran(self) -> int:
+            """Returns the total number of tests ran."""
             return (
                 len(self.failed)
                 + len(self.errors)
@@ -36,6 +37,7 @@ class TestCase:
             )
 
         def add_test(self, status: str, order_num: int, name: str, errors: Exception | None = None) -> None:
+            """Adds a test and its results."""
             match status:
                 case 'error':
                     self.errors.append(
@@ -58,6 +60,13 @@ class TestCase:
         super().__init_subclass__(**kwargs)
 
     def __call_a_callable_safely(self, callable: Callable[[], Any], test: Callable[[], None], index: int, results: TestResult, fail_fast: bool) -> Tuple[TestResult, str]:
+        """
+        A private method that safely calls functions used in run.
+        If the called function raises an AssertionError, it is considered 
+        a test failure. If it raises a SkipTest error, it is considered a
+        skipped test. Any other errors raised are considered test errors.
+        """
+
         try:
             try:
                 callable()
@@ -94,6 +103,11 @@ class TestCase:
         return results, 'success'
 
     def __get_tests(self) -> List[Callable[[], None]]:
+        """
+        A private method that returns all TestCase methods that starts
+        with 'test_'.
+        """
+
         tests = []
 
         for method in dir(self):
@@ -103,6 +117,14 @@ class TestCase:
         return tests
 
     def __order_tests(self, tests: List[Callable[[], None]]) -> List[Callable[[], None]]:
+        """
+        A private method that orders tests based on a number appended to 
+        the test name.
+
+        It splits method names using an underscore ('_') and sorts them by
+        the last value if it is a digit; otherwise, it uses 0.
+        """
+
         def sort_by(test):
             key = test.__name__.split('_')[-1]
             return int(key) if key.isdigit() else 0
@@ -154,6 +176,12 @@ class TestCase:
         return None
 
     def __calculate_elapsed_time(self, start: float, end: float) -> str:
+        """
+        This private method calculates the elapsed time between the first
+        and last test. If the elapsed time is 0.1 second or more, it is 
+        returned in seconds; otherwise, it is converted to milliseconds.
+        """
+
         final_time = end - start
         if final_time >= 0.1:
             return f'{final_time * 100:.6f}'
@@ -418,7 +446,7 @@ class TestCase:
 
     def assert_raises_regex(self, exception: Exception, regex: str, callable: Callable[[Any], Any], *args: Any, **kwargs: Any) -> None:
         """
-        Like assertRaises() but also tests that regex matches on the
+        Like assert_raises() but also tests that regex matches on the
         string representation of the raised exception.
         """
         pattern = compile(regex)
@@ -550,13 +578,13 @@ class TestCase:
     @classmethod
     def add_cleanup(cls, function: Callable[[Any], None], *args: Any, **kwargs: Any) -> None:
         """
-        Add a function to be called after tearDown() to clean up resources
+        Add a function to be called after tear_down() to clean up resources
         used during the test. Functions will be called in reverse order to
         the order they are added (LIFO). They are called with any
         arguments and keyword arguments passed into addCleanup when they
         are added.
 
-        If setUp() fails meaning that tearDown() is not called, then any
+        If set_up() fails meaning that tear_down() is not called, then any
         cleanup functions will still be called.
         """
         cls.clean_ups.append({'callable': function, 'args': args, 'kwargs': kwargs}) # type: ignore[attr-defined]
@@ -564,8 +592,8 @@ class TestCase:
     @classmethod
     def do_cleanups(cls):
         """
-        The method is called unconditionally after tearDown(), or after
-        setUp() if setUp() raises an exception.
+        The method is called unconditionally after tear_down(), or after
+        set_up() if set_up() raises an exception.
         """
         for clean_up in cls.clean_ups:
             callable = clean_up['callable']

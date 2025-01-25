@@ -20,7 +20,8 @@ def skip_test(reason: str | None=None) -> Decorator:
 
 def skip_test_if(condition: bool, reason: str | None=None) -> Decorator:
     """
-    Calling this during a test method or set_up() skips the current test if the condition evaluates to True.
+    Calling this during a test method or set_up() skips the current test 
+    if the condition evaluates to True.
     """
 
     def decorator(func: Callable[[], None]):
@@ -36,7 +37,8 @@ def skip_test_if(condition: bool, reason: str | None=None) -> Decorator:
 
 def skip_test_unless(condition: bool, reason: str | None=None) -> Decorator:
     """
-    Calling this during a test method or set_up() skips the current test unless the condition evaluates to True.
+    Calling this during a test method or set_up() skips the current test 
+    unless the condition evaluates to True.
     """
 
     def decorator(func: Callable[[], None]):

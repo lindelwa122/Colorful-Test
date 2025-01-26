@@ -581,7 +581,7 @@ class TestCase:
         Add a function to be called after tear_down() to clean up resources
         used during the test. Functions will be called in reverse order to
         the order they are added (LIFO). They are called with any
-        arguments and keyword arguments passed into addCleanup when they
+        arguments and keyword arguments passed into add_cleanup when they
         are added.
 
         If set_up() fails meaning that tear_down() is not called, then any

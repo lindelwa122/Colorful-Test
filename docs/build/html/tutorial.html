@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tutorial: A simple Calculator program &#8212; Colorful Test 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Usage" href="usage.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="tutorial-a-simple-calculator-program">
+<h1>Tutorial: A simple Calculator program<a class="headerlink" href="#tutorial-a-simple-calculator-program" title="Link to this heading">¶</a></h1>
+<p>In this tutorial, you’ll write unit tests for a simple calculator program. This will help you get started with Colorful Test’s features and understand how to make the most of the framework.</p>
+<p>For a more detailed explanation, see Usage.</p>
+<section id="getting-started">
+<span id="tutorial-getting-started"></span><h2>Getting started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h2>
+<p>To get started, install <strong>Colorful Test</strong> using pip by running this command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>colorful-test
+</pre></div>
+</div>
+<p>To install <strong>Colorful Test</strong> inside a virtual environment, first create a virtual environment using Python.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.env
+</pre></div>
+</div>
+<p>Activate the virtual environment by running this command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>.env/bin/activate
+</pre></div>
+</div>
+</section>
+<section id="calculator-program">
+<span id="tutorial-tutorial"></span><h2>Calculator program<a class="headerlink" href="#calculator-program" title="Link to this heading">¶</a></h2>
+<p>Create a folder called <strong>colorful-test-tutorial</strong>, and inside it, create a file named calculator.py. Then, paste the following code inside it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculator.py</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">first</span> <span class="o">+</span> <span class="n">second</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">multiply</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">first</span> <span class="o">*</span> <span class="n">second</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">second</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="s1">&#39;you cannot divide by 0&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">first</span> <span class="o">/</span> <span class="n">second</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">subtract</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">first</span> <span class="o">-</span> <span class="n">second</span>
+</pre></div>
+</div>
+<p>That’s our basic calculator program! It’s simple but enough to showcase some of the powerful features of <strong>Colorful Test</strong>.</p>
+<p>Now, create a <strong>test_calculator.py</strong> file, and let’s start writing our tests!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">colorful_test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">calculator</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestCalculator</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">calculator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+        <span class="k">assert</span> <span class="n">calculator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>For now, we have a simple test method that asserts the <strong>add</strong> method of the calculator returns the expected values for given arguments.</p>
+<section id="the-test-runner">
+<span id="tutorial-test-runner"></span><h3>The test runner<a class="headerlink" href="#the-test-runner" title="Link to this heading">¶</a></h3>
+<p>If you run the tests, you won’t see anything on the console. That’s because <strong>Colorful Test</strong> doesn’t automatically call the test runner—you have to do it yourself.</p>
+<p>To run our tests, modify <strong>test_calculator.py</strong> so that it contains the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">TestCalculator</span><span class="o">.</span><span class="n">run_and_output_results</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You should see something like this in your console:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">========================================================</span>
+
+<span class="go">Ran 1 tests in 1.104116 ms</span>
+<span class="go">1 passed</span>
+<span class="go">0 failed</span>
+<span class="go">0 skipped</span>
+<span class="go">0 error(s)</span>
+
+<span class="go">✓ Grade: 100.0%</span>
+</pre></div>
+</div>
+</section>
+<section id="testcase-assert-methods">
+<span id="tutorial-testcase"></span><h3>TestCase assert_* methods<a class="headerlink" href="#testcase-assert-methods" title="Link to this heading">¶</a></h3>
+<p>Even though <strong>assert</strong> works fine, for more complex test cases, you’ll need to use some of the built-in methods that <strong>TestCase</strong> provides.</p>
+<p>Let’s switch to <strong>assert_equal</strong> and add more tests for the calculator program.</p>
+<p>Replace your existing tests with the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">colorful_test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">calculator</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestCalculator</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_subtract</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_multiply</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_divide</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_raises</span><span class="p">(</span><span class="ne">ZeroDivisionError</span><span class="p">,</span> <span class="n">calculator</span><span class="o">.</span><span class="n">divide</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">TestCalculator</span><span class="o">.</span><span class="n">run_and_output_results</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Things to note about the code above:</p>
+<ul class="simple">
+<li><p>We now use <strong>TestCase</strong> methods to check if two values are equivalent instead of just using <strong>assert</strong>.</p></li>
+<li><p>We use <strong>assert_raises</strong> to verify that <strong>divide</strong> raises a <strong>ZeroDivisionError</strong> when the second argument is zero.</p></li>
+</ul>
+<p>After running the code, all tests should pass!</p>
+</section>
+<section id="colorful-messages">
+<span id="tutorial-colorful-message"></span><h3>Colorful messages<a class="headerlink" href="#colorful-messages" title="Link to this heading">¶</a></h3>
+<p>One of the coolest features of <strong>Colorful Test</strong> is its ability to display elegant and helpful error messages, along with success messages that make users feel excited about their progress.</p>
+<p>Adding these messages is super simple! Just import <strong>show_message</strong> from <strong>colorful_test</strong> and use it as a decorator to wrap your test methods.</p>
+<p>Here’s an example of how <strong>show_message</strong> is used:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@show_message</span><span class="p">(</span><span class="n">fail</span><span class="o">=</span><span class="s1">&#39;This test failed&#39;</span><span class="p">,</span> <span class="n">success</span><span class="o">=</span><span class="s1">&#39;This test passed&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Obviously, you’ll want to write more helpful messages than just “Test failed” or “Test passed,” but you get the idea!</p>
+<p>If the test fails, the failure message will be printed; otherwise, the success message will be displayed. You don’t need to specify both arguments.</p>
+<p>Now, go ahead and add <strong>show_message</strong> with helpful messages to all your test methods!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">colorful_test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span><span class="p">,</span> <span class="n">show_message</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">calculator</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestCalculator</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="nd">@show_message</span><span class="p">(</span>
+        <span class="n">success</span><span class="o">=</span><span class="s1">&#39;Calculator can add two numbers as expected.&#39;</span><span class="p">,</span>
+        <span class="n">fail</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        Calculator failed to add two numbers as expected.</span>
+
+<span class="s1">        Hints:</span>
+<span class="s1">        Expected: </span><span class="si">%s</span>
+<span class="s1">        Received: </span><span class="si">%f</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+    <span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="nd">@show_message</span><span class="p">(</span>
+        <span class="n">success</span><span class="o">=</span><span class="s1">&#39;Calculator can subtract two numbers as expected.&#39;</span><span class="p">,</span>
+        <span class="n">fail</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        Calculator failed to subtract two numbers as expected.</span>
+
+<span class="s1">        Hints:</span>
+<span class="s1">        Expected: </span><span class="si">%s</span>
+<span class="s1">        Received: </span><span class="si">%f</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+    <span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_subtract</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@show_message</span><span class="p">(</span>
+        <span class="n">success</span><span class="o">=</span><span class="s1">&#39;Calculator can multiply two numbers as expected.&#39;</span><span class="p">,</span>
+        <span class="n">fail</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        Calculator failed to multiply two numbers as expected.</span>
+
+<span class="s1">        Hints:</span>
+<span class="s1">        Expected: </span><span class="si">%s</span>
+<span class="s1">        Received: </span><span class="si">%f</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+    <span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_multiply</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="nd">@show_message</span><span class="p">(</span>
+        <span class="n">success</span><span class="o">=</span><span class="s1">&#39;Calculator can divide two numbers as expected.&#39;</span><span class="p">,</span>
+        <span class="n">fail</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        Calculator failed to divide two numbers as expected.</span>
+
+<span class="s1">        Hints:</span>
+<span class="s1">        Expected: </span><span class="si">%s</span>
+<span class="s1">        Received: </span><span class="si">%f</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+    <span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_divide</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_raises</span><span class="p">(</span><span class="ne">ZeroDivisionError</span><span class="p">,</span> <span class="n">calculator</span><span class="o">.</span><span class="n">divide</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">TestCalculator</span><span class="o">.</span><span class="n">run_and_output_results</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In the <strong>fail messages</strong>, you can use <strong>%f</strong> to refer to the first argument that was passed to the method that failed, and <strong>%s</strong> to refer to the second argument. This can make your test messages much more informative and helpful.</p>
+<p>After running the tests, you should now see four new success messages in the console that look something like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">✓ Calculator can add two numbers as expected.</span>
+<span class="go">✓ Calculator can divide two numbers as expected.</span>
+<span class="go">✓ Calculator can multiply two numbers as expected.</span>
+<span class="go">✓ Calculator can subtract two numbers as expected.</span>
+<span class="go">========================================================</span>
+
+<span class="go">Ran 4 tests in 3.145218 ms</span>
+<span class="go">4 passed</span>
+<span class="go">0 failed</span>
+<span class="go">0 skipped</span>
+<span class="go">0 error(s)</span>
+
+<span class="go">✓ Grade: 100.0%</span>
+</pre></div>
+</div>
+<p>Let’s intentionally make one test fail to see how the failure message appears:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_divide</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Change the two to a three and run the tests.</p>
+</section>
+<section id="fail-fast">
+<span id="tutorial-fail-fast"></span><h3>Fail fast<a class="headerlink" href="#fail-fast" title="Link to this heading">¶</a></h3>
+<p>By default, tests fail fast, meaning the runner stops execution immediately after encountering an error or failure. That’s exactly what happened when we intentionally caused a test to fail.</p>
+<p>We can change this behavior by setting the <strong>fail_fast</strong> argument to <em>False</em> in the runner:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">TestCalculator</span><span class="o">.</span><span class="n">run_and_output_results</span><span class="p">(</span><span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now, it should say 3 test passed instead of 1.</p>
+</section>
+<section id="ordering-test-methods">
+<span id="tutorial-order"></span><h3>Ordering test methods<a class="headerlink" href="#ordering-test-methods" title="Link to this heading">¶</a></h3>
+<p>By default, the order in which test methods are executed is based on their alphabetical order. This might not always be ideal. For example, when creating a project for students, it may make more sense to test certain features before others. <strong>Colorful Test</strong> provides the flexibility to order tests according to our needs.</p>
+<p>To order our tests, we simply need to add an underscore followed by a number at the end of the test method name. Modify your code to look like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestCalculator</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_add_0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_subtract_1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_multiply_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_divide_3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_raises</span><span class="p">(</span><span class="ne">ZeroDivisionError</span><span class="p">,</span> <span class="n">calculator</span><span class="o">.</span><span class="n">divide</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">calculator</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Now, your tests should execute in the order we’ve specified, from test method number 0 to test method number 3.</p>
+</section>
+</section>
+<section id="conclusion">
+<span id="tutorial-conclusion"></span><h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">¶</a></h2>
+<p>This tutorial covers all the basics you need to get started with <strong>Colorful Test</strong>. For more functions and methods, refer to the <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a> documentation.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Colorful Test</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial: A simple Calculator program</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculator-program">Calculator program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="usage.html" title="previous chapter">Usage</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Nqabenhle Mlaba.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/tutorial.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -184,7 +184,7 @@ class TestCase:
 
         final_time = end - start
         if final_time >= 0.1:
-            return f'{final_time * 100:.6f}'
+            return f'{final_time:.6f}'
         else:
             return f'{final_time * 1000:.6f}'
 

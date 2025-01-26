@@ -1,266 +1,390 @@
 <!DOCTYPE html>
+<html lang="en"
+      data-content_root="./"
+      x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }"
+      x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))"
+      class="scroll-smooth"
+      :class="{'dark': darkMode === 'dark' || (darkMode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)}"
+>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<html lang="en" data-content_root="./">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Usage | Colorful Test 1.0.0 documentation</title>
+    <meta property="og:title" content="Usage | Colorful Test 1.0.0 documentation" />
+    <meta name="twitter:title" content="Usage | Colorful Test 1.0.0 documentation" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=e72c8e07" />
+      <link rel="stylesheet" type="text/css" href="_static/theme.css?v=42baaae4" />
+        <link rel="search" title="Search" href="search.html" />
+        <link rel="index" title="Index" href="genindex.html" />
+          <link rel="next" title="Tutorial: A simple Calculator program" href="tutorial.html" />
+          <link rel="prev" title="Colorful Test documentation" href="index.html" />
 
-    <title>Usage &#8212; Colorful Test 1.0.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
-    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
-    <script src="_static/documentation_options.js?v=8d563738"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Colorful Test documentation" href="index.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+  <body x-data="{ showSidebar: false, showScrollTop: false }" class="min-h-screen font-sans antialiased bg-background text-foreground" :class="{ 'overflow-hidden': showSidebar }">
+    <div x-cloak x-show="showSidebar" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" @click.self="showSidebar = false"></div><div id="page" class="relative flex flex-col min-h-screen"><a href="#content" class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100">
+      Skip to content
+    </a><header
+  class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+    <div class="hidden mr-4 md:flex">
+      <a href="index.html" class="flex items-center mr-6"><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">Colorful Test 1.0.0 documentation</span>
+      </a></div><button
+      class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden"
+      type="button" @click="showSidebar = true">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 96 960 960" aria-hidden="true"
+        fill="currentColor">
+        <path
+          d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z" />
+      </svg>
+      <span class="sr-only">Toggle navigation menu</span>
+    </button>
+    <div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+      <div class="flex-1 w-full md:w-auto md:flex-none"><form id="searchbox"
+      action="search.html"
+      method="get"
+      class="relative flex items-center group"
+      @keydown.k.window.meta="$refs.search.focus()">
+  <input x-ref="search"
+          name="q"
+          id="search-input"
+          type="search"
+          aria-label="Search the docs"
+          placeholder="Search ..."
+          class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" />
+  <kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+    <span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+      </div>
+      <nav class="flex items-center space-x-1">
+        <button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'"
+          class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9"
+          type="button"
+          aria-label="Color theme switcher">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 96 960 960" fill="currentColor"
+            class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0">
+            <path
+              d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 96 960 960" fill="currentColor"
+            class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100">
+            <path
+              d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z" />
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    <div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside id="left-sidebar"
+  class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky"
+  :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }">
+
+    <a href="index.html" class="!justify-start text-sm md:!hidden bg-background"><span class="font-bold text-clip whitespace-nowrap">Colorful Test 1.0.0 documentation</span>
+    </a>
+
+    <div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+      <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial: A simple Calculator program</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/colorful_test.html">colorful_test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/colorful_test.exceptions.html">colorful_test.exceptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/colorful_test.message.html">colorful_test.message</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/colorful_test.skip_test.html">colorful_test.skip_test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/colorful_test.testcase.html">colorful_test.testcase</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generated/colorful_test.testcase.TestCase.html">colorful_test.testcase.TestCase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/colorful_test.message.show_message.html">colorful_test.message.show_message</a></li>
+</ul>
+</li>
+</ul>
+
+</nav>
+      </div>
+    </div>
+    <button type="button" @click="showSidebar = false"
+      class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 96 960 960" fill="currentColor"
+        stroke="none" class="h-4 w-4">
+        <path
+          d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z" />
+      </svg>
+    </button>
+  </aside>
+        <main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs"
+     class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+  <a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground"
+     href="index.html">
+    <span class="hidden md:inline">Colorful Test 1.0.0 documentation</span>
+    <svg xmlns="http://www.w3.org/2000/svg"
+         height="18"
+         width="18"
+         viewBox="0 96 960 960"
+         aria-label="Home"
+         fill="currentColor"
+         stroke="none"
+         class="md:hidden">
+      <path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z" />
+    </svg>
+  </a>
   
+<div class="mr-1">/</div><span aria-current="page"
+        class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Usage</span>
+</nav>
 
-  
-  
-
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          
-
-          <div class="body" role="main">
-            
-  <section id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h1>
+    <div id="content" role="main">
+      <section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Link to this heading"><span>#</span></a></h1>
 <section id="installation">
-<span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"><span>#</span></a></h2>
 <p>To use Colorful Test, first install it using pip:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>colorful-test
-</pre></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>colorful-test
+</span></code></pre></div>
 </div>
 </section>
 <section id="basic-example">
-<span id="id2"></span><h2>Basic Example<a class="headerlink" href="#basic-example" title="Link to this heading">¶</a></h2>
+<span id="id2"></span><h2>Basic Example<a class="headerlink" href="#basic-example" title="Link to this heading"><span>#</span></a></h2>
 <p>Colorful Test provides a handful of useful tools to help you construct and run tests. Here’s a basic example of some of those tools in action:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">colorful_test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span><span class="p">,</span> <span class="n">show_message</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">solution</span><span class="w"> </span><span class="kn">import</span> <span class="n">add</span><span class="p">,</span> <span class="n">mul</span><span class="p">,</span> <span class="n">div</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">TestSolution</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-
-    <span class="nd">@show_message</span><span class="p">(</span>
-        <span class="n">success</span><span class="o">=</span><span class="s1">&#39;Your add method works as expected&#39;</span><span class="p">,</span>
-        <span class="n">fail</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">        Your add method doesn&#39;t work as expected. Hints:</span>
-
-<span class="s1">        Expected: </span><span class="si">%s</span>
-<span class="s1">        Received: </span><span class="si">%f</span>
-<span class="s1">        &#39;&#39;&#39;</span>
-    <span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">test_basic_addition_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
-
-    <span class="nd">@show_message</span><span class="p">(</span>
-        <span class="n">success</span><span class="o">=</span><span class="s1">&#39;Your mul method works as expected&#39;</span><span class="p">,</span>
-        <span class="n">fail</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">        Your mul method doesn&#39;t work as expected. Hints:</span>
-
-<span class="s1">        Expected: </span><span class="si">%s</span>
-<span class="s1">        Received: </span><span class="si">%f</span>
-<span class="s1">        &#39;&#39;&#39;</span>
-    <span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">test_basic_multiplication_0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">mul</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">mul</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
-
-    <span class="nd">@show_message</span><span class="p">(</span>
-        <span class="n">success</span><span class="o">=</span><span class="s1">&#39;Your div method works as expected&#39;</span><span class="p">,</span>
-        <span class="n">fail</span><span class="o">=</span><span class="s1">&#39;Your div method should raise a ZeroDivisionError if the second argument is 0&#39;</span>
-    <span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">test_basic_division_error_1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assert_raises</span><span class="p">(</span><span class="ne">ZeroDivisionError</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">TestSolution</span><span class="o">.</span><span class="n">run_and_output_results</span><span class="p">()</span>
-</pre></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">from</span><span class="w"> </span><span class="nn">colorful_test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span><span class="p">,</span> <span class="n">show_message</span>
+</span><span id="line-2"><span class="kn">from</span><span class="w"> </span><span class="nn">solution</span><span class="w"> </span><span class="kn">import</span> <span class="n">add</span><span class="p">,</span> <span class="n">mul</span><span class="p">,</span> <span class="n">div</span>
+</span><span id="line-3">
+</span><span id="line-4"><span class="k">class</span><span class="w"> </span><span class="nc">TestSolution</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+</span><span id="line-5">
+</span><span id="line-6">    <span class="nd">@show_message</span><span class="p">(</span>
+</span><span id="line-7">        <span class="n">success</span><span class="o">=</span><span class="s1">&#39;Your add method works as expected&#39;</span><span class="p">,</span>
+</span><span id="line-8">        <span class="n">fail</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+</span><span id="line-9"><span class="s1">        Your add method doesn&#39;t work as expected. Hints:</span>
+</span><span id="line-10">
+</span><span id="line-11"><span class="s1">        Expected: </span><span class="si">%s</span>
+</span><span id="line-12"><span class="s1">        Received: </span><span class="si">%f</span>
+</span><span id="line-13"><span class="s1">        &#39;&#39;&#39;</span>
+</span><span id="line-14">    <span class="p">)</span>
+</span><span id="line-15">    <span class="k">def</span><span class="w"> </span><span class="nf">test_basic_addition_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-16">        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+</span><span id="line-17">        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+</span><span id="line-18">
+</span><span id="line-19">    <span class="nd">@show_message</span><span class="p">(</span>
+</span><span id="line-20">        <span class="n">success</span><span class="o">=</span><span class="s1">&#39;Your mul method works as expected&#39;</span><span class="p">,</span>
+</span><span id="line-21">        <span class="n">fail</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+</span><span id="line-22"><span class="s1">        Your mul method doesn&#39;t work as expected. Hints:</span>
+</span><span id="line-23">
+</span><span id="line-24"><span class="s1">        Expected: </span><span class="si">%s</span>
+</span><span id="line-25"><span class="s1">        Received: </span><span class="si">%f</span>
+</span><span id="line-26"><span class="s1">        &#39;&#39;&#39;</span>
+</span><span id="line-27">    <span class="p">)</span>
+</span><span id="line-28">    <span class="k">def</span><span class="w"> </span><span class="nf">test_basic_multiplication_0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-29">        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">mul</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+</span><span id="line-30">        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">mul</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+</span><span id="line-31">
+</span><span id="line-32">    <span class="nd">@show_message</span><span class="p">(</span>
+</span><span id="line-33">        <span class="n">success</span><span class="o">=</span><span class="s1">&#39;Your div method works as expected&#39;</span><span class="p">,</span>
+</span><span id="line-34">        <span class="n">fail</span><span class="o">=</span><span class="s1">&#39;Your div method should raise a ZeroDivisionError if the second argument is 0&#39;</span>
+</span><span id="line-35">    <span class="p">)</span>
+</span><span id="line-36">    <span class="k">def</span><span class="w"> </span><span class="nf">test_basic_division_error_1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-37">        <span class="bp">self</span><span class="o">.</span><span class="n">assert_raises</span><span class="p">(</span><span class="ne">ZeroDivisionError</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="line-38">
+</span><span id="line-39"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span><span id="line-40">    <span class="n">TestSolution</span><span class="o">.</span><span class="n">run_and_output_results</span><span class="p">()</span>
+</span></code></pre></div>
 </div>
 <p>A TestCase is created by inheriting TestCase. The test runner looks for methods that start with <strong>test_</strong> and considers them as tests. These tests are then ordered based on the number appended to their names.</p>
 <p>In each test, <strong>assert_equal</strong> or <strong>assert_raises</strong> can be used—these work similarly to <em>assertEqual</em> and <em>assertRaises</em> from the <a class="reference external" href="https://docs.python.org/3/library/unittest.html">unittest</a> framework. <strong>assert_equal</strong> checks if the first and second arguments are equivalent, while <strong>assert_raises</strong> verifies whether the specified callable raises an error with the given arguments. However, you don’t have to use these methods—you can simply use <strong>assert</strong>, and the test runner will still accumulate all test results and generate a test report.</p>
 <p>One thing to note is that <strong>test_basic_multiplication_0</strong> will be executed first, followed by <strong>test_basic_division_error_1</strong>, and so on. This happens because of how the tests are ordered. Appending a number to test method names is not mandatory—if omitted, test methods will be ordered alphabetically.</p>
 </section>
 <section id="command-line-interface">
-<span id="id3"></span><h2>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Link to this heading">¶</a></h2>
+<span id="id3"></span><h2>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Link to this heading"><span>#</span></a></h2>
 <p>The tests are run in the command-line interface. While the framework doesn’t yet offer as many commands or as much flexibility as other Python frameworks, you can still run tests easily.</p>
 <p>To execute a test file, run one of the following commands:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>&lt;test_file&gt;
-</pre></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="gp">$ </span>python<span class="w"> </span>&lt;test_file&gt;
+</span></code></pre></div>
 </div>
 <p>or</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>colorful-test<span class="w"> </span>&lt;test_file&gt;/&lt;directory&gt;
-</pre></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>colorful-test<span class="w"> </span>&lt;test_file&gt;/&lt;directory&gt;
+</span></code></pre></div>
 </div>
 <p>If you specify a directory, Colorful Test will find all Python files in that directory that start with <strong>test_</strong> and execute them.</p>
 </section>
 <section id="organizing-your-code">
-<span id="id4"></span><h2>Organizing your code<a class="headerlink" href="#organizing-your-code" title="Link to this heading">¶</a></h2>
+<span id="id4"></span><h2>Organizing your code<a class="headerlink" href="#organizing-your-code" title="Link to this heading"><span>#</span></a></h2>
 <p>The basic building blocks of unit testing are test cases—single scenarios that must be set up and checked for correctness. <strong>Colorful Test</strong>’s <em>TestCase</em> provides functionalities to create test cases and test methods, making it easy to test different scenarios.</p>
 <p>You don’t always have to use <em>show_message</em>, as seen in the <a class="reference internal" href="#basic-example"><span class="std std-ref">Basic Example</span></a>, when writing test methods. Here’s another basic example of a test case:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">colorful_test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">person</span><span class="w"> </span><span class="kn">import</span> <span class="n">person</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">account</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">TestBankAccount</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">test_account_deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">josh</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s1">&#39;Josh&#39;</span><span class="p">,</span> <span class="s1">&#39;Gilder&#39;</span><span class="p">)</span>
-        <span class="n">account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">josh</span><span class="p">)</span>
-        <span class="n">account</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
-
-        <span class="n">account</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(),</span> <span class="mi">500</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">TestBankAccount</span><span class="o">.</span><span class="n">run_and_output_results</span><span class="p">()</span>
-</pre></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">from</span><span class="w"> </span><span class="nn">colorful_test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span>
+</span><span id="line-2"><span class="kn">from</span><span class="w"> </span><span class="nn">person</span><span class="w"> </span><span class="kn">import</span> <span class="n">person</span>
+</span><span id="line-3"><span class="kn">from</span><span class="w"> </span><span class="nn">account</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="k">class</span><span class="w"> </span><span class="nc">TestBankAccount</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+</span><span id="line-6">
+</span><span id="line-7">    <span class="k">def</span><span class="w"> </span><span class="nf">test_account_deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-8">        <span class="n">josh</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s1">&#39;Josh&#39;</span><span class="p">,</span> <span class="s1">&#39;Gilder&#39;</span><span class="p">)</span>
+</span><span id="line-9">        <span class="n">account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">josh</span><span class="p">)</span>
+</span><span id="line-10">        <span class="n">account</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+</span><span id="line-11">
+</span><span id="line-12">        <span class="n">account</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+</span><span id="line-13">        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(),</span> <span class="mi">500</span><span class="p">)</span>
+</span><span id="line-14">
+</span><span id="line-15"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span><span id="line-16">    <span class="n">TestBankAccount</span><span class="o">.</span><span class="n">run_and_output_results</span><span class="p">()</span>
+</span></code></pre></div>
 </div>
 <p>That is a simple test case that checks if money can be deposited into an account. It uses one of our <strong>assert_*</strong> methods to achieve this.</p>
 <p>Note that we have to call the <strong>run_and_output_results</strong> method to run our test case. Without calling the runner, nothing will happen. But if we do call it, we’ll get a report on how our unit tests ran—even without using <em>show_message</em>.</p>
 <p>This is how the output will look:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Ran 1 tests in 0.000078 ms</span>
-<span class="go">1 passed</span>
-<span class="go">0 failed</span>
-<span class="go">0 skipped</span>
-<span class="go">0 error(s)</span>
-
-<span class="go">✓ Grade: 100.0%</span>
-</pre></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="go">Ran 1 tests in 0.000078 ms</span>
+</span><span id="line-2"><span class="go">1 passed</span>
+</span><span id="line-3"><span class="go">0 failed</span>
+</span><span id="line-4"><span class="go">0 skipped</span>
+</span><span id="line-5"><span class="go">0 error(s)</span>
+</span><span id="line-6">
+</span><span id="line-7"><span class="go">✓ Grade: 100.0%</span>
+</span></code></pre></div>
 </div>
 <p><strong>Grade</strong> is just another metric that specifies the success rate of our tests. It can be useful in educational environments.</p>
 <p>Tests can be numerous, and their setup can be repetitive. That’s where <strong>set_up</strong> comes in—it’s a method that is called before each test runs, providing a setup that will be used by the test methods.</p>
 <p>Here’s an example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">colorful_test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">person</span><span class="w"> </span><span class="kn">import</span> <span class="n">person</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">account</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">TestBankAccount</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">josh</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s1">&#39;Josh&#39;</span><span class="p">,</span> <span class="s1">&#39;Gilder&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">josh</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">test_account_deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(),</span> <span class="mi">500</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">TestBankAccount</span><span class="o">.</span><span class="n">run_and_output_results</span><span class="p">()</span>
-</pre></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">from</span><span class="w"> </span><span class="nn">colorful_test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span>
+</span><span id="line-2"><span class="kn">from</span><span class="w"> </span><span class="nn">person</span><span class="w"> </span><span class="kn">import</span> <span class="n">person</span>
+</span><span id="line-3"><span class="kn">from</span><span class="w"> </span><span class="nn">account</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="k">class</span><span class="w"> </span><span class="nc">TestBankAccount</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+</span><span id="line-6">
+</span><span id="line-7">    <span class="k">def</span><span class="w"> </span><span class="nf">set_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-8">        <span class="bp">self</span><span class="o">.</span><span class="n">josh</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s1">&#39;Josh&#39;</span><span class="p">,</span> <span class="s1">&#39;Gilder&#39;</span><span class="p">)</span>
+</span><span id="line-9">        <span class="bp">self</span><span class="o">.</span><span class="n">account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">josh</span><span class="p">)</span>
+</span><span id="line-10">        <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+</span><span id="line-11">
+</span><span id="line-12">    <span class="k">def</span><span class="w"> </span><span class="nf">test_account_deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-13">        <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+</span><span id="line-14">        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(),</span> <span class="mi">500</span><span class="p">)</span>
+</span><span id="line-15">
+</span><span id="line-16"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span><span id="line-17">    <span class="n">TestBankAccount</span><span class="o">.</span><span class="n">run_and_output_results</span><span class="p">()</span>
+</span></code></pre></div>
 </div>
 <p>If the <strong>set_up()</strong> method raises an exception while the test is running, the framework will consider the test to have encountered an error, and the test method will not be executed.</p>
 <p>Similarly, we can provide a <strong>tear_down()</strong> method to clean up after the test method has run:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">colorful_test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">person</span><span class="w"> </span><span class="kn">import</span> <span class="n">person</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">account</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">TestBankAccount</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">josh</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s1">&#39;Josh&#39;</span><span class="p">,</span> <span class="s1">&#39;Gilder&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">josh</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">tear_down</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</pre></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">from</span><span class="w"> </span><span class="nn">colorful_test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span>
+</span><span id="line-2"><span class="kn">from</span><span class="w"> </span><span class="nn">person</span><span class="w"> </span><span class="kn">import</span> <span class="n">person</span>
+</span><span id="line-3"><span class="kn">from</span><span class="w"> </span><span class="nn">account</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="k">class</span><span class="w"> </span><span class="nc">TestBankAccount</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+</span><span id="line-6">
+</span><span id="line-7">    <span class="k">def</span><span class="w"> </span><span class="nf">set_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-8">        <span class="bp">self</span><span class="o">.</span><span class="n">josh</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s1">&#39;Josh&#39;</span><span class="p">,</span> <span class="s1">&#39;Gilder&#39;</span><span class="p">)</span>
+</span><span id="line-9">        <span class="bp">self</span><span class="o">.</span><span class="n">account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">josh</span><span class="p">)</span>
+</span><span id="line-10">        <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+</span><span id="line-11">
+</span><span id="line-12">    <span class="k">def</span><span class="w"> </span><span class="nf">tear_down</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-13">        <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></code></pre></div>
 </div>
 <p>By default, tests will fail fast, meaning the run will stop immediately after encountering the first error or failure. You can change this by setting <strong>fail_fast</strong> to <em>False</em> in <strong>run_and_output_results</strong>.</p>
 <p>Here’s an example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">TestBankAccount</span><span class="o">.</span><span class="n">run_and_output_results</span><span class="p">(</span><span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span><span id="line-2">    <span class="n">TestBankAccount</span><span class="o">.</span><span class="n">run_and_output_results</span><span class="p">(</span><span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></code></pre></div>
 </div>
 <p>Using <strong>run_and_output_results</strong> will run your test case and display the results in the console. However, you can also use the <strong>run</strong> method, which won’t print anything to the console but will return a <strong>TestResults</strong> object, allowing you to customize how you handle errors and different scenarios.</p>
 <p>Example using the <strong>run</strong> method:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">TestBankAccount</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span><span id="line-2">    <span class="n">TestBankAccount</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></code></pre></div>
 </div>
 </section>
 <section id="skipping-tests">
-<span id="id5"></span><h2>Skipping tests<a class="headerlink" href="#skipping-tests" title="Link to this heading">¶</a></h2>
+<span id="id5"></span><h2>Skipping tests<a class="headerlink" href="#skipping-tests" title="Link to this heading"><span>#</span></a></h2>
 <p><strong>Colorful Test</strong> supports skipping test methods. Skipping a test is as simple as raising a <strong>SkipTest</strong> exception—the test runner will recognize this as a skipped test.</p>
 <p>Here’s an example of how you can skip tests:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">colorful_test</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">ExampleTestCase</span><span class="p">(</span><span class="n">colorful_test</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-
-    <span class="nd">@colorful_test</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s1">&#39;showing how skip works&#39;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">test_one</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Test will be skipped</span>
-        <span class="k">pass</span>
-
-    <span class="nd">@colorful_test</span><span class="o">.</span><span class="n">skip_if</span><span class="p">(</span><span class="ow">not</span> <span class="n">feature_enabled</span><span class="p">(</span><span class="s2">&quot;dark_mode&quot;</span><span class="p">),</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Dark mode is not enabled&quot;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">test_two</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Test will be skipped only if dark_mode is not enabled</span>
-        <span class="k">pass</span>
-
-    <span class="nd">@colorful_test</span><span class="o">.</span><span class="n">skip_unless</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;win32&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Only supports Windows&quot;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">test_three</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Test will be skipped unless platform is Windows</span>
-        <span class="k">pass</span>
-</pre></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">import</span><span class="w"> </span><span class="nn">colorful_test</span>
+</span><span id="line-2">
+</span><span id="line-3"><span class="k">class</span><span class="w"> </span><span class="nc">ExampleTestCase</span><span class="p">(</span><span class="n">colorful_test</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+</span><span id="line-4">
+</span><span id="line-5">    <span class="nd">@colorful_test</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s1">&#39;showing how skip works&#39;</span><span class="p">)</span>
+</span><span id="line-6">    <span class="k">def</span><span class="w"> </span><span class="nf">test_one</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-7">        <span class="c1"># Test will be skipped</span>
+</span><span id="line-8">        <span class="k">pass</span>
+</span><span id="line-9">
+</span><span id="line-10">    <span class="nd">@colorful_test</span><span class="o">.</span><span class="n">skip_if</span><span class="p">(</span><span class="ow">not</span> <span class="n">feature_enabled</span><span class="p">(</span><span class="s2">&quot;dark_mode&quot;</span><span class="p">),</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Dark mode is not enabled&quot;</span><span class="p">)</span>
+</span><span id="line-11">    <span class="k">def</span><span class="w"> </span><span class="nf">test_two</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-12">        <span class="c1"># Test will be skipped only if dark_mode is not enabled</span>
+</span><span id="line-13">        <span class="k">pass</span>
+</span><span id="line-14">
+</span><span id="line-15">    <span class="nd">@colorful_test</span><span class="o">.</span><span class="n">skip_unless</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;win32&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Only supports Windows&quot;</span><span class="p">)</span>
+</span><span id="line-16">    <span class="k">def</span><span class="w"> </span><span class="nf">test_three</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-17">        <span class="c1"># Test will be skipped unless platform is Windows</span>
+</span><span id="line-18">        <span class="k">pass</span>
+</span></code></pre></div>
 </div>
 <p>The following decorators and exception implement test skipping:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="colorful_test.skip_test.skip_test">
-<span class="sig-prename descclassname"><span class="pre">colorful_test.skip_test.</span></span><span class="sig-name descname"><span class="pre">skip_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#colorful_test.skip_test.skip_test" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">colorful_test.skip_test.</span></span><span class="sig-name descname"><span class="pre">skip_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#colorful_test.skip_test.skip_test" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Calling this during a test method or set_up() skips the current test.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="colorful_test.skip_test.skip_test_if">
-<span class="sig-prename descclassname"><span class="pre">colorful_test.skip_test.</span></span><span class="sig-name descname"><span class="pre">skip_test_if</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#colorful_test.skip_test.skip_test_if" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">colorful_test.skip_test.</span></span><span class="sig-name descname"><span class="pre">skip_test_if</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#colorful_test.skip_test.skip_test_if" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Calling this during a test method or set_up() skips the current test 
 if the condition evaluates to True.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="colorful_test.skip_test.skip_test_unless">
-<span class="sig-prename descclassname"><span class="pre">colorful_test.skip_test.</span></span><span class="sig-name descname"><span class="pre">skip_test_unless</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#colorful_test.skip_test.skip_test_unless" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">colorful_test.skip_test.</span></span><span class="sig-name descname"><span class="pre">skip_test_unless</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#colorful_test.skip_test.skip_test_unless" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Calling this during a test method or set_up() skips the current test 
 unless the condition evaluates to True.</p>
 </dd></dl>
 
 </section>
 <section id="classes-and-functions">
-<span id="id6"></span><h2>Classes and functions<a class="headerlink" href="#classes-and-functions" title="Link to this heading">¶</a></h2>
+<span id="id6"></span><h2>Classes and functions<a class="headerlink" href="#classes-and-functions" title="Link to this heading"><span>#</span></a></h2>
 <section id="testcase">
-<span id="classes-and-functions-testcase"></span><h3>TestCase<a class="headerlink" href="#testcase" title="Link to this heading">¶</a></h3>
+<span id="classes-and-functions-testcase"></span><h3>TestCase<a class="headerlink" href="#testcase" title="Link to this heading"><span>#</span></a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">colorful_test.testcase.</span></span><span class="sig-name descname"><span class="pre">TestCase</span></span><a class="headerlink" href="#colorful_test.testcase.TestCase" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">colorful_test.testcase.</span></span><span class="sig-name descname"><span class="pre">TestCase</span></span><a class="headerlink" href="#colorful_test.testcase.TestCase" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base class that implements the interface needed by the runner to allow
 it do drive the tests, and methods that the test code can use to check
 for and report various kinds of failures.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.TestResult">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TestResult</span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.TestResult" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TestResult</span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.TestResult" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class that stores the results of the tests ran by run(). It provides
 functionalities to display output to the screen.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.TestResult.add_test">
-<span class="sig-name descname"><span class="pre">add_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Exception</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.TestResult.add_test" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Exception</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.TestResult.add_test" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Adds a test and its results.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.TestResult.get_total_tests_ran">
-<span class="sig-name descname"><span class="pre">get_total_tests_ran</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.TestResult.get_total_tests_ran" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_total_tests_ran</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.TestResult.get_total_tests_ran" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Returns the total number of tests ran.</p>
 </dd></dl>
 
@@ -268,7 +392,7 @@ functionalities to display output to the screen.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.add_cleanup">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.add_cleanup" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.add_cleanup" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Add a function to be called after tear_down() to clean up resources
 used during the test. Functions will be called in reverse order to
 the order they are added (LIFO). They are called with any
@@ -280,7 +404,7 @@ cleanup functions will still be called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_almost_equal">
-<span class="sig-name descname"><span class="pre">assert_almost_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">places</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_almost_equal" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_almost_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">places</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_almost_equal" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that first and second are approximately equal by computing
 the difference, rounding to the given number of decimal places
 (default 7), and comparing to zero.</p>
@@ -288,20 +412,20 @@ the difference, rounding to the given number of decimal places
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_count_equal">
-<span class="sig-name descname"><span class="pre">assert_count_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_count_equal" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_count_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_count_equal" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that sequence first contains the same elements as second,
 regardless of their order. Duplicates are not ignored.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_dict_equal">
-<span class="sig-name descname"><span class="pre">assert_dict_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_dict_equal" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_dict_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_dict_equal" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that two dictionaries are equal.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_does_not_raises">
-<span class="sig-name descname"><span class="pre">assert_does_not_raises</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exception</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseException</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_does_not_raises" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_does_not_raises</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exception</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseException</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_does_not_raises" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that an exception (specific) is not raised when callable is
 called with any positional or keyword arguments. The test passes
 if exception is not raised, is an error if another exception is
@@ -310,86 +434,86 @@ raised, or fails if exception is raised.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_equal">
-<span class="sig-name descname"><span class="pre">assert_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_equal" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_equal" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that first and second are equal. If the values does not
 compare, the test will fail.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_false">
-<span class="sig-name descname"><span class="pre">assert_false</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_false" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_false</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_false" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that expr is False.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_greater">
-<span class="sig-name descname"><span class="pre">assert_greater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_greater" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_greater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_greater" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that first is &gt; than the second. If not, the test will fail.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_greater_equal">
-<span class="sig-name descname"><span class="pre">assert_greater_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_greater_equal" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_greater_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_greater_equal" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that first is &gt;= than the second. If not, the test will fail.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_in">
-<span class="sig-name descname"><span class="pre">assert_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_in" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_in" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that first is in second.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_is">
-<span class="sig-name descname"><span class="pre">assert_is</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_is" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_is</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_is" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that first and second evaluate to the same object.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_is_instance">
-<span class="sig-name descname"><span class="pre">assert_is_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_is_instance" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_is_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_is_instance" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that obj is an instance of cls.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_is_none">
-<span class="sig-name descname"><span class="pre">assert_is_none</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_is_none" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_is_none</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_is_none" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that expr is None.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_is_not">
-<span class="sig-name descname"><span class="pre">assert_is_not</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_is_not" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_is_not</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_is_not" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that first and second does not evaluate to the same object.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_is_not_none">
-<span class="sig-name descname"><span class="pre">assert_is_not_none</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_is_not_none" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_is_not_none</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_is_not_none" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that expr is not None.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_less">
-<span class="sig-name descname"><span class="pre">assert_less</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_less" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_less</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_less" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that first is &lt; than the second. If not, the test will fail.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_less_equal">
-<span class="sig-name descname"><span class="pre">assert_less_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_less_equal" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_less_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_less_equal" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that first is &lt;= than the second. If not, the test will fail.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_list_equal">
-<span class="sig-name descname"><span class="pre">assert_list_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_list_equal" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_list_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_list_equal" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that two lists are equal.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_not_almost_equal">
-<span class="sig-name descname"><span class="pre">assert_not_almost_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">places</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_not_almost_equal" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_not_almost_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">places</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_not_almost_equal" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that first and second are not approximately equal by
 computing the difference, rounding to the given number of decimal
 places (default 7), and comparing to zero.</p>
@@ -397,32 +521,32 @@ places (default 7), and comparing to zero.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_not_equal">
-<span class="sig-name descname"><span class="pre">assert_not_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_not_equal" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_not_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_not_equal" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that first and second are not equal. If the values do compare
 equal, the test will fail</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_not_in">
-<span class="sig-name descname"><span class="pre">assert_not_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_not_in" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_not_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_not_in" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that first is not in second.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_not_is_instance">
-<span class="sig-name descname"><span class="pre">assert_not_is_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_not_is_instance" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_not_is_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_not_is_instance" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that obj is not an instance of cls.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_not_regex">
-<span class="sig-name descname"><span class="pre">assert_not_regex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Pattern</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_not_regex" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_not_regex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Pattern</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_not_regex" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that a regex search does not math the text.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_raises">
-<span class="sig-name descname"><span class="pre">assert_raises</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exception</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseException</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_raises" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_raises</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exception</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseException</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_raises" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that an exception (specific) is raised when callable is
 called with any positional or keyword arguments. The test passes
 if exception is raised, is an error if another exception is
@@ -431,20 +555,20 @@ raised, or fails if no exception is raised.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_raises_regex">
-<span class="sig-name descname"><span class="pre">assert_raises_regex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exception</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Exception</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_raises_regex" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_raises_regex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exception</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Exception</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_raises_regex" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Like assert_raises() but also tests that regex matches on the
 string representation of the raised exception.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_regex">
-<span class="sig-name descname"><span class="pre">assert_regex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Pattern</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_regex" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_regex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Pattern</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_regex" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that a regex search matches the text.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_sequence_equal">
-<span class="sig-name descname"><span class="pre">assert_sequence_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_sequence_equal" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_sequence_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_sequence_equal" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that two sequences are equal. If a seq_type is supplied,
 both first and second must be instances of seq_type or a failure
 will be raised.</p>
@@ -452,7 +576,7 @@ will be raised.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_set_equal">
-<span class="sig-name descname"><span class="pre">assert_set_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_set_equal" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_set_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_set_equal" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that two sets are equal.</p>
 <p>Fails if either of first or second does not have a
 set.difference() method.</p>
@@ -460,26 +584,26 @@ set.difference() method.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_true">
-<span class="sig-name descname"><span class="pre">assert_true</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_true" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_true</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_true" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that expr is True.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.assert_tuple_equal">
-<span class="sig-name descname"><span class="pre">assert_tuple_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_tuple_equal" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assert_tuple_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.assert_tuple_equal" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Test that two tuples are equal.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.do_cleanups">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">do_cleanups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#colorful_test.testcase.TestCase.do_cleanups" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">do_cleanups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#colorful_test.testcase.TestCase.do_cleanups" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>The method is called unconditionally after tear_down(), or after
 set_up() if set_up() raises an exception.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.final_message">
-<span class="sig-name descname"><span class="pre">final_message</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.final_message" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">final_message</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.final_message" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>This method is called after tests in an individual class run. The
 returned message is printed as the last message if all tests passed.
 The default implementation returns None</p>
@@ -487,19 +611,19 @@ The default implementation returns None</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.run">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fail_fast</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#colorful_test.testcase.TestCase.TestResult" title="colorful_test.testcase.TestCase.TestResult"><span class="pre">TestResult</span></a></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.run" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fail_fast</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#colorful_test.testcase.TestCase.TestResult" title="colorful_test.testcase.TestCase.TestResult"><span class="pre">TestResult</span></a></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.run" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Run the tests, collecting the results into TestResult object. The
 result object is returned to run()’s caller.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.run_and_output_results">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run_and_output_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fail_fast</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_grade</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#colorful_test.testcase.TestCase.TestResult" title="colorful_test.testcase.TestCase.TestResult"><span class="pre">TestResult</span></a></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.run_and_output_results" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run_and_output_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fail_fast</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_grade</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#colorful_test.testcase.TestCase.TestResult" title="colorful_test.testcase.TestCase.TestResult"><span class="pre">TestResult</span></a></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.run_and_output_results" title="Link to this definition"><span>#</span></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.set_up">
-<span class="sig-name descname"><span class="pre">set_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.set_up" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.set_up" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>This method is called immediately before calling a test method;
 other than AssertionError or SkipTest, any exception raised by
 this method will be considered an error rather than a test
@@ -508,14 +632,14 @@ failure. The default implementation does nothing.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.set_up_class">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_up_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.set_up_class" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_up_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.set_up_class" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>This method is called before tests in an individual class run. The
 default implementation does nothing.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.tear_down">
-<span class="sig-name descname"><span class="pre">tear_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.tear_down" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tear_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.tear_down" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>This method is called immediately after calling a test method;
 other than AssertionError or SkipTest, any exception raised by
 this method will be considered an error rather than a test
@@ -525,7 +649,7 @@ The default implemantation does nothing.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="colorful_test.testcase.TestCase.tear_down_class">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tear_down_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.tear_down_class" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tear_down_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#colorful_test.testcase.TestCase.tear_down_class" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>This method is called after tests in an individual class run. The
 default implementation does nothing.</p>
 </dd></dl>
@@ -534,10 +658,10 @@ default implementation does nothing.</p>
 
 </section>
 <section id="message">
-<span id="classes-and-functions-message"></span><h3>Message<a class="headerlink" href="#message" title="Link to this heading">¶</a></h3>
+<span id="classes-and-functions-message"></span><h3>Message<a class="headerlink" href="#message" title="Link to this heading"><span>#</span></a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="colorful_test.message.show_message">
-<span class="sig-prename descclassname"><span class="pre">colorful_test.message.</span></span><span class="sig-name descname"><span class="pre">show_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">success</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Decorator</span></span></span><a class="headerlink" href="#colorful_test.message.show_message" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">colorful_test.message.</span></span><span class="sig-name descname"><span class="pre">show_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">success</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Decorator</span></span></span><a class="headerlink" href="#colorful_test.message.show_message" title="Link to this definition"><span>#</span></a></dt>
 <dd><p>Decorator used to print a failure message if a test fails or a success
 message if a test passes.</p>
 <p>If one or the other is specified, show_message will only print for 
@@ -549,79 +673,95 @@ test passes, you can omit the success message.</p>
 </section>
 </section>
 
-
-          </div>
-          
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="Main">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Colorful Test</a></h1>
-
-
-
-
-
-
-
-
-
-<search id="searchbox" style="display: none" role="search">
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</search>
-<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#basic-example">Basic Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#command-line-interface">Command Line Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#organizing-your-code">Organizing your code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#skipping-tests">Skipping tests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#classes-and-functions">Classes and functions</a></li>
+    </div></div><aside id="right-sidebar" class="hidden text-sm xl:block">
+  <div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+    <ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#basic-example">Basic Example</a></li>
+<li><a class="reference internal" href="#command-line-interface">Command Line Interface</a></li>
+<li><a class="reference internal" href="#organizing-your-code">Organizing your code</a></li>
+<li><a class="reference internal" href="#skipping-tests">Skipping tests</a><ul>
+<li><a class="reference internal" href="#colorful_test.skip_test.skip_test"><code class="docutils literal notranslate"><span class="pre">skip_test()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.skip_test.skip_test_if"><code class="docutils literal notranslate"><span class="pre">skip_test_if()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.skip_test.skip_test_unless"><code class="docutils literal notranslate"><span class="pre">skip_test_unless()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#classes-and-functions">Classes and functions</a><ul>
+<li><a class="reference internal" href="#testcase">TestCase</a><ul>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase"><code class="docutils literal notranslate"><span class="pre">TestCase</span></code></a><ul>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.TestResult"><code class="docutils literal notranslate"><span class="pre">TestCase.TestResult</span></code></a><ul>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.TestResult.add_test"><code class="docutils literal notranslate"><span class="pre">TestCase.TestResult.add_test()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.TestResult.get_total_tests_ran"><code class="docutils literal notranslate"><span class="pre">TestCase.TestResult.get_total_tests_ran()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.add_cleanup"><code class="docutils literal notranslate"><span class="pre">TestCase.add_cleanup()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_almost_equal"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_almost_equal()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_count_equal"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_count_equal()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_dict_equal"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_dict_equal()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_does_not_raises"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_does_not_raises()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_equal"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_equal()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_false"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_false()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_greater"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_greater()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_greater_equal"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_greater_equal()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_in"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_in()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_is"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_is()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_is_instance"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_is_instance()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_is_none"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_is_none()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_is_not"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_is_not()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_is_not_none"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_is_not_none()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_less"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_less()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_less_equal"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_less_equal()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_list_equal"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_list_equal()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_not_almost_equal"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_not_almost_equal()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_not_equal"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_not_equal()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_not_in"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_not_in()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_not_is_instance"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_not_is_instance()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_not_regex"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_not_regex()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_raises"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_raises()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_raises_regex"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_raises_regex()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_regex"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_regex()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_sequence_equal"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_sequence_equal()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_set_equal"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_set_equal()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_true"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_true()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.assert_tuple_equal"><code class="docutils literal notranslate"><span class="pre">TestCase.assert_tuple_equal()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.do_cleanups"><code class="docutils literal notranslate"><span class="pre">TestCase.do_cleanups()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.final_message"><code class="docutils literal notranslate"><span class="pre">TestCase.final_message()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.run"><code class="docutils literal notranslate"><span class="pre">TestCase.run()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.run_and_output_results"><code class="docutils literal notranslate"><span class="pre">TestCase.run_and_output_results()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.set_up"><code class="docutils literal notranslate"><span class="pre">TestCase.set_up()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.set_up_class"><code class="docutils literal notranslate"><span class="pre">TestCase.set_up_class()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.tear_down"><code class="docutils literal notranslate"><span class="pre">TestCase.tear_down()</span></code></a></li>
+<li><a class="reference internal" href="#colorful_test.testcase.TestCase.tear_down_class"><code class="docutils literal notranslate"><span class="pre">TestCase.tear_down_class()</span></code></a></li>
 </ul>
 </li>
 </ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Colorful Test documentation</a></li>
-  </ul></li>
+</li>
+<li><a class="reference internal" href="#message">Message</a><ul>
+<li><a class="reference internal" href="#colorful_test.message.show_message"><code class="docutils literal notranslate"><span class="pre">show_message()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
-
-
-
-
-
-
-
-
-        </div>
+</aside>
+        </main>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &#169;2025, Nqabenhle Mlaba.
-      
-      |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
-      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
-      
-      |
-      <a href="_sources/usage.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+    </div><footer class="py-6 border-t border-border md:py-0">
+    <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+      <div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+        <p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2025, Nqabenhle Mlaba&nbsp;Built with <a class="font-medium underline underline-offset-4"
+    href="https://www.sphinx-doc.org"
+    rel="noreferrer">Sphinx 8.1.3</a></p>
+</div>
+</div>
+</footer>
+  </div>
+  
+    <script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script defer="defer" src="_static/theme.js?v=073f68d9"></script>
+  
+</body>
 </html>

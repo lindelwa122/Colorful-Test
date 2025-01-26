@@ -21,4 +21,3 @@ If you're familiar with *unittest*, it shouldn't be hard to get a grasp of how *
 
    usage
    tutorial
-   api

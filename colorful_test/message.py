@@ -11,11 +11,10 @@ def output_msg(type: str, msg: str) -> None:
     prints it with a red cross.
     """
 
-    match type:
-        case 'err':
-            print(f'\033[31m\u00d7 {msg}\033[0m')
-        case 'suc':
-            print(f'\033[32m\u2713 {msg}\033[0m')
+    if type == 'err':
+        print(f'\033[31m\u00d7 {msg}\033[0m')
+    elif type =='suc':
+        print(f'\033[32m\u2713 {msg}\033[0m')
 
 
 def show_message(fail: str | None=None, success: str | None=None) -> Decorator:

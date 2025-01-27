@@ -1,4 +1,6 @@
 *.swp
+.ruff_cache
+.mypy_cache
 playground.py
 __pycache__
 colorful_test/playground.py

@@ -18,7 +18,7 @@ $ pip install colorful-test
 
 ## Documentation
 
-Read the full documentation [here]().
+Read the full documentation [here](https://colorful-test.readthedocs.io/en/latest/).
 
 ## Basic Example
 
@@ -81,7 +81,7 @@ Appending a number to test method names is not mandatory—if omitted, test meth
 
 ## Tutorial
 
-[This tutorial]() will guide you on how to write unit tests using **Colorful Test**.
+[This tutorial](https://colorful-test.readthedocs.io/en/latest/tutorial.html) will guide you on how to write unit tests using **Colorful Test**.
 
 ## Contributing
 

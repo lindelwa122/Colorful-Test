@@ -3,7 +3,7 @@ from typing import Any, Callable, Dict, Tuple
 
 from .exceptions import SkipTest
 
-type Decorator = Callable[[Callable[[], None]], Callable[[Tuple[Any], Dict[str, Any]], None]]
+Decorator = Callable[[Callable[[], None]], Callable[[Tuple[Any], Dict[str, Any]], None]]
 
 def skip_test(reason: str | None=None) -> Decorator:
     """

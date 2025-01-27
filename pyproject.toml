@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "colorful-test"
-version = "0.0.7"
+version = "1.0.0"
 description = "A unit testing framework with colorful messages."
 authors = ["nqabenhle <nqmlabajhb024@student.wethinkcode.co.za>"]
 readme = "README.md"

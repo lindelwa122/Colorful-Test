@@ -222,6 +222,7 @@ class TestCase:
                     continue
                 case 'fail_fast':
                     end = time()
+                    results.score = round((len(results.passed) / len(tests)) * 100, 2)
                     results.time = instance.__calculate_elapsed_time(start, end)
                     return results
 
@@ -235,6 +236,7 @@ class TestCase:
                     continue
                 case 'fail_fast':
                     end = time()
+                    results.score = round((len(results.passed) / len(tests)) * 100, 2)
                     results.time = instance.__calculate_elapsed_time(start, end)
                     return results
 
@@ -247,6 +249,7 @@ class TestCase:
                 case 'fail_slow':
                     continue
                 case 'fail_fast':
+                    results.score = round((len(results.passed) / len(tests)) * 100, 2)
                     results.time = instance.__calculate_elapsed_time(start, end)
                     return results
                 case 'success':

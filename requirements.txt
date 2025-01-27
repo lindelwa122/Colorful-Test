@@ -43,7 +43,7 @@ SecretStorage==3.3.3
 shellingham==1.5.4
 snowballstemmer==2.2.0
 soupsieve==2.6
-Sphinx==7.4.7
+Sphinx
 sphinxawesome-theme==5.3.2
 sphinxcontrib-applehelp==2.0.0
 sphinxcontrib-devhelp==2.0.0

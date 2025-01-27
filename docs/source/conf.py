@@ -6,6 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
+import sys
+from pathlib import Path
+
 project = 'Colorful Test'
 copyright = '2025, Nqabenhle Mlaba'
 author = 'Nqabenhle Mlaba'
@@ -35,6 +38,4 @@ html_static_path = ['_static']
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here.
-import sys
-from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))

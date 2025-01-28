@@ -149,7 +149,7 @@ Here's an example:
 
         def set_up(self):
             self.josh = Person('Josh', 'Gilder')
-            self.account = Account(josh)
+            self.account = Account(self.josh)
             self.account.open()
 
         def test_account_deposit(self):
@@ -173,7 +173,7 @@ Similarly, we can provide a **tear_down()** method to clean up after the test me
 
         def set_up(self):
             self.josh = Person('Josh', 'Gilder')
-            self.account = Account(josh)
+            self.account = Account(self.josh)
             self.account.open()
 
         def tear_down(self):

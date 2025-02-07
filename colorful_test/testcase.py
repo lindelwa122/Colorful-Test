@@ -281,10 +281,10 @@ class TestCase:
         print(
             '========================================================\n',
             f'Ran {results.get_total_tests_ran()} tests in {results.time} ms',
-            f'{len(results.passed)} passed',
-            f'{len(results.failed)} failed',
-            f'{len(results.skipped)} skipped',
-            f'{len(results.errors)} error(s)',
+            f'\033[32m{len(results.passed)} passed\033[0m',
+            f'\033[35m{len(results.failed)} failed\033[0m',
+            f'\033[33m{len(results.skipped)} skipped\033[0m',
+            f'\033[31m{len(results.errors)} error(s)\033[0m',
             sep='\n',
             end='\n\n',
         )
@@ -312,8 +312,8 @@ class TestCase:
 
             for failure in results.failed:
                 print(
-                    f'Test Number: {failure["order"]}',
-                    f'Test Name: {failure["name"]}',
+                    f'\033[35mTest Number: {failure["order"]}\033[0m',
+                    f'\033[35mTest Name: {failure["name"]}\033[0m',
                     sep='\n',
                     end='\n\n',
                 )
@@ -323,9 +323,9 @@ class TestCase:
 
             for test in results.skipped:
                 print(
-                    f'Test Number: {test["order"]}',
-                    f'Test Name: {test["name"]}',
-                    f'Reason: {test["reason"]}',
+                    f'\033[33mTest Number: {test["order"]}\033[0m',
+                    f'\033[33mTest Name: {test["name"]}\033[0m',
+                    f'\033[33mReason: {test["reason"]}\033[0m',
                     sep='\n',
                     end='\n\n',
                 )

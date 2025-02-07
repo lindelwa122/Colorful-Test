@@ -1,4 +1,4 @@
-# 1.0.1 (February 7, 2025)
+# 1.0.2 (February 7, 2025)
 Add more colors to the output.
 
 # 1.0.1 (January 27, 2025)
